@@ -6,38 +6,48 @@ Phonebook::Phonebook()
     this->contact_count = 0;
 }
 
-void Phonebook::add_more(int n)
-{
-    int i = 0;
-    std::string name;
-    std::cout << "name: ";
-    std::getline(std::cin, name);
-    while (i < n)
-    {
-        contacts[this->index].first_name = name;
-        contacts[this->index].last_name = name;
-        contacts[this->index].nick_name = name;
-        contacts[this->index].phone_number = name;
-        contacts[this->index].darkest_secret = name;
-        this->index = (this->index + 1) % 8;
-        if (this->contact_count < 8)
-            this->contact_count++;
-        i++;
-    }
-}
+// void Phonebook::add_more(int n)
+// {
+//     int i = 0;
+//     std::string name;
+//     std::cout << "name: ";
+//     std::getline(std::cin, name);
+//     while (i < n)
+//     {
+//         contacts[this->index].first_name = name;
+//         contacts[this->index].last_name = name;
+//         contacts[this->index].nick_name = name;
+//         contacts[this->index].phone_number = name;
+//         contacts[this->index].darkest_secret = name;
+//         this->index = (this->index + 1) % 8;
+//         if (this->contact_count < 8)
+//             this->contact_count++;
+//         i++;
+//     }
+// }
 
 void Phonebook::add()
 {
     std::cout << "Enter first name: ";
-    std::getline(std::cin, contacts[this->index].first_name);
+    std::string f_name;
+    std::getline(std::cin, f_name);
+    contacts[this->index].set_first_name(f_name);
     std::cout << "Enter last name: ";
-    std::getline(std::cin, contacts[this->index].last_name);
+    std::string l_name;
+    std::getline(std::cin, l_name);
+    contacts[this->index].set_last_name(l_name);
     std::cout << "Enter nickname: ";
-    std::getline(std::cin, contacts[this->index].nick_name);
+    std::string n_name;
+    std::getline(std::cin, n_name);
+    contacts[this->index].set_nickname(n_name);
     std::cout << "Enter phone number: ";
-    std::getline(std::cin, contacts[this->index].phone_number);
+    std::string p_number;
+    std::getline(std::cin, p_number);
+    contacts[this->index].set_phone_number(p_number);
     std::cout << "Enter darkest secret: ";
-    std::getline(std::cin, contacts[this->index].darkest_secret);
+    std::string d_secret;
+    std::getline(std::cin, d_secret);
+    contacts[this->index].set_darkest_secret(d_secret);
     this->index = (this->index + 1) % 8;
     if (this->contact_count < 8)
         this->contact_count++;
@@ -75,11 +85,11 @@ void Phonebook::display_contacts()
     {
         int display_index = (this->index - this->contact_count + i + 8) % 8;
         std::cout << "     [  " << i << "  |";
-        cut_print_string(contacts[display_index].first_name);
+        cut_print_string(contacts[display_index].get_first_name());
         std::cout << "|";
-        cut_print_string(contacts[display_index].last_name);
+        cut_print_string(contacts[display_index].get_last_name());
         std::cout << "|";
-        cut_print_string(contacts[display_index].nick_name);
+        cut_print_string(contacts[display_index].get_nickname());
         std::cout << "]" << std::endl;
     }
     std::cout << std::endl;
