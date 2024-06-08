@@ -24,4 +24,5 @@ class Contact
         void print_contact();
 };
 
+
 #endif

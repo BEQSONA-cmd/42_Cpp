@@ -9,8 +9,8 @@ int main(void)
         std::string line;
         std::cout << "Enter a command: ";
         std::getline(std::cin, line);
-        // if(line == "add_more")
-        //     phone.add_more(7);
+        if(line == "add_more")
+            phone.add_more(123);
         if (line == "EXIT")
             break;
         else if (line == "ADD")

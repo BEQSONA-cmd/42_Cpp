@@ -6,25 +6,25 @@ Phonebook::Phonebook()
     this->contact_count = 0;
 }
 
-// void Phonebook::add_more(int n)
-// {
-//     int i = 0;
-//     std::string name;
-//     std::cout << "name: ";
-//     std::getline(std::cin, name);
-//     while (i < n)
-//     {
-//         contacts[this->index].first_name = name;
-//         contacts[this->index].last_name = name;
-//         contacts[this->index].nick_name = name;
-//         contacts[this->index].phone_number = name;
-//         contacts[this->index].darkest_secret = name;
-//         this->index = (this->index + 1) % 8;
-//         if (this->contact_count < 8)
-//             this->contact_count++;
-//         i++;
-//     }
-// }
+void Phonebook::add_more(int n)
+{
+    int i = 0;
+    std::string name;
+    std::cout << "name: ";
+    std::getline(std::cin, name);
+    while (i < n)
+    {
+        contacts[this->index].set_first_name(name);
+        contacts[this->index].set_last_name(name);
+        contacts[this->index].set_nickname(name);
+        contacts[this->index].set_phone_number(name);
+        contacts[this->index].set_darkest_secret(name);
+        this->index = (this->index + 1) % 8;
+        if (this->contact_count < 8)
+            this->contact_count++;
+        i++;
+    }
+}
 
 void Phonebook::add()
 {
