@@ -65,14 +65,19 @@ int ft_atoi(std::string str)
 void cut_print_string(std::string str)
 {
     int i = 0;
-    while(i < 10 && i < (int)str.length())
+    int j = 0;
+    while(i < 10 - (int)str.length())
     {
-        std::cout << str[i];
+        std::cout << " ";
         i++;
     }
     while(i < 10)
     {
-        std::cout << " ";
+        if(j == 9)
+            std::cout << ".";
+        else
+            std::cout << str[j];
+        j++;
         i++;
     }
 }
