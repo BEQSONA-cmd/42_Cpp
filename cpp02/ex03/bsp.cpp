@@ -61,7 +61,11 @@ bool bsp(Point const a, Point const b, Point const c, Point const point)
     float int_b[2] = {b.getX(), b.getY()};
     float int_c[2] = {c.getX(), c.getY()};
     float int_point[2] = {point.getX(), point.getY()};
-
+    if((int_point[0] == int_a[0] && int_point[1] == int_a[1]) || (int_point[0] == int_b[0] && int_point[1] == int_b[1]) || (int_point[0] == int_c[0] && int_point[1] == int_c[1]))
+    {
+        draw_map(a, b, c, point, 0);
+        return false;
+    }
     float abc_area = triangle_area(int_a, int_b, int_c);
     float pbc_area = triangle_area(int_point, int_b, int_c);
     float pac_area = triangle_area(int_a, int_point, int_c);
