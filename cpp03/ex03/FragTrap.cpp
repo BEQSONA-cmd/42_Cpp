@@ -4,7 +4,6 @@ FragTrap::FragTrap()
 {
     this->name = "default";
     this->hit_points = 100;
-    this->energy_points = 100;
     this->attak_damage = 30;
     // std::cout << YELLOW << "FragTrap: Default constructor called" << RESET << std::endl;
 }
@@ -13,7 +12,6 @@ FragTrap::FragTrap(std::string name)
 {
     this->name = name;
     this->hit_points = 100;
-    this->energy_points = 100;
     this->attak_damage = 30;
     // std::cout << YELLOW << "FragTrap: Default constructor called" << RESET << std::endl;
 }
