@@ -17,6 +17,8 @@ class Cat : public Animal
     public:
         void makeSound() const;
         std::string getType() const;
+
+        Brain *get_brain();
         // default constructor
         Cat();
         // copy constructor
