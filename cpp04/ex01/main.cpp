@@ -50,16 +50,19 @@ int main(void)
     i = 0;
 
     Cat cat;
+    Dog dog;
 
     while(i < 10)
     {
-        cat.get_brain()->new_idea("idea");
+        // std::cout << ideas[i] << std::endl;
+        cat.get_brain()->new_idea(ideas[i]);
         i++;
     }
     i = 0;
     while(i < 10)
     {
-        std::cout << GREEN << cat.get_brain()->ideas[i] << RESET << std::endl;
+        std::cout << GREEN "this is cat brain idea:" BLUE << cat.get_brain()->ideas[i] << RESET << std::endl;
+        std::cout << GREEN "this is dog brain idea:" BLUE << dog.get_brain()->ideas[i] << RESET << std::endl;
         i++;
     }
     return 0;
