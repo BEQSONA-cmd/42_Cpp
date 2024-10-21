@@ -13,8 +13,12 @@ Brain::Brain(const Brain &brain)
 
 Brain &Brain::operator=(const Brain &brain)
 {
-    for (int i = 0; i < 100; i++)
+    int i = 0;
+    while(i < 100)
+    {
         this->ideas[i] = brain.ideas[i];
+        i++;
+    }
     std::cout << YELLOW << "Brain: Assignment operator called" << RESET << std::endl;
     return *this;
 }
@@ -34,6 +38,21 @@ void Brain::new_idea(std::string idea)
             this->ideas[i] = idea;
             break;
         }
+        if (i == 99)
+        {
+            std::cout << RED << "Brain: Brain is full" << RESET << std::endl;
+            return;
+        }
         i++;
     }
+}
+
+std::string Brain::show_idea(int i)
+{
+    if(i < 0 || i > 99 || this->ideas[i] == "")
+    {
+        std::cout << RED << "Idea does not exist" << RESET << std::endl;
+        return "";
+    }
+    return this->ideas[i];
 }

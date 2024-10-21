@@ -1,4 +1,4 @@
-NAME = Polymorphism
+NAME = Abstract
 CC = c++ -std=c++98
 FLAGS = -Wall -Werror -Wextra -fsanitize=address
 

@@ -9,7 +9,6 @@ Dog::Dog()
 
 Dog::Dog(const Dog &dog) : Animal(dog)
 {
-    // using assignment operator overload
     this->operator=(dog);
     std::cout << YELLOW << "Dog: Copy constructor called" << RESET << std::endl;
 }

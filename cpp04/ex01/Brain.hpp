@@ -10,10 +10,10 @@
 
 class Brain
 {
-    private:
-    public:
+    protected:
         std::string ideas[100];
-        
+    public:
+        std::string show_idea(int i);
         // default constructor
         Brain();
         // copy constructor

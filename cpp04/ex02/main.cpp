@@ -10,6 +10,8 @@ int main(void)
 
     // delete animal;
 
+    // Animal test;
+
     Animal *dog = new Dog();
     Animal *cat = new Cat();
 
