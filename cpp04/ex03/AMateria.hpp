@@ -7,15 +7,18 @@
 #define CYAN "\033[1;36m"
 #define RESET "\033[0m"
 #include <iostream>
+#include "ICharacter.hpp"
+
+class ICharacter;
 
 class AMateria
 {
     protected:
         std::string _type;
     public:
-        std::string const & getType() const;
+        virtual std::string const & getType() const;
         virtual AMateria* clone() const = 0;
-        // virtual void use(ICharacter& target);
+        virtual void use(ICharacter& target);
 
         // default constructor
         AMateria();

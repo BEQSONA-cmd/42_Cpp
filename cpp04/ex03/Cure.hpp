@@ -11,10 +11,7 @@
 
 class Cure : public AMateria
 {
-    private:
-        std::string _type;
     public:
-        std::string const & getType() const;
         AMateria* clone() const;
         // default constructor
         Cure();
