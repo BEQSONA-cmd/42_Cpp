@@ -32,15 +32,17 @@
 
 void clone_tests(void)
 {
-    Ice ice;
-    Cure cure;
+    Ice *ice = new Ice();
+    Cure *cure = new Cure();
 
-    AMateria *ice_clone = ice.clone();
-    AMateria *cure_clone = cure.clone();
+    AMateria *ice_clone = ice->clone();
+    AMateria *cure_clone = cure->clone();
 
     std::cout << GREEN "Ice clone type: " BLUE << ice_clone->getType() << RESET << std::endl;
     std::cout << GREEN "Cure clone type: " BLUE << cure_clone->getType() << RESET << std::endl;
 
+    delete ice;
+    delete cure;
     delete ice_clone;
     delete cure_clone;
 }
@@ -48,11 +50,9 @@ void clone_tests(void)
 void interface_tests(void)
 {
     IMateriaSource* src = new MateriaSource();
-
     std::cout << GREEN "Materia Source interface tests passed." << RESET << std::endl;
 
     ICharacter* emanuel = new Character("Emanuel");
-
     std::cout << GREEN "Character interface tests passed." << RESET << std::endl;
 
     delete emanuel;
@@ -62,15 +62,17 @@ void interface_tests(void)
 void use_tests(void)
 {
     std::cout << YELLOW "basic use test" << RESET << std::endl;
-    Ice ice;
-    Cure cure;
+    Ice *ice = new Ice();
+    Cure *cure = new Cure();
 
     ICharacter* emanuel = new Character("Emanuel");
 
-    ice.use(*emanuel);
-    cure.use(*emanuel);
+    ice->use(*emanuel);
+    cure->use(*emanuel);
 
     delete emanuel;
+    delete ice;
+    delete cure;
 
     std::cout << YELLOW "\nuse tests with multiple materia" << RESET << std::endl;
 
@@ -86,7 +88,7 @@ void use_tests(void)
     emanuel2->equip(ice3);
     emanuel2->equip(cure3);
 
-    std::cout << YELLOW "\nshould use cure" << RESET << std::endl;
+    std::cout << YELLOW "should use cure" << RESET << std::endl;
     emanuel2->use(3, *emanuel2);
 
     std::cout << YELLOW "\nshould use ice" << RESET << std::endl;
@@ -159,20 +161,71 @@ void equip_unequip_tests(void)
     delete cure2;
 }
 
+void learn_create_materia_tests(void)
+{
+    IMateriaSource* src = new MateriaSource();
+
+    AMateria *ice = new Ice();
+    AMateria *cure = new Cure();
+
+    src->learnMateria(ice);
+    src->learnMateria(cure);
+
+    ICharacter* emanuel = new Character("Emanuel");
+
+    emanuel->equip(src->createMateria("ice"));
+    emanuel->equip(src->createMateria("cure"));
+
+    emanuel->use(0, *emanuel);
+    emanuel->use(1, *emanuel);
+
+    delete emanuel;
+    delete src;
+
+    std::cout << YELLOW "\ntest when creating materia that is not learned" << RESET << std::endl;
+
+    IMateriaSource* src2 = new MateriaSource();
+
+    AMateria *ice2 = src2->createMateria("ice");
+    AMateria *cure2 = src2->createMateria("cure");
+
+    delete ice2;
+    delete cure2;
+
+    delete src2;
+
+    std::cout << YELLOW "\ntest when equip materia is not learned" << RESET << std::endl;
+
+    IMateriaSource* src3 = new MateriaSource();
+
+    ICharacter* emanuel2 = new Character("Emanuel");
+
+    emanuel2->equip(src3->createMateria("ice"));
+    emanuel2->equip(src3->createMateria("cure"));
+
+    emanuel2->use(0, *emanuel2);
+    emanuel2->use(1, *emanuel2);
+
+    delete emanuel2;
+    delete src3;
+}
 
 int main(void)
 {
-    // std::cout << YELLOW "tests for clone function" RESET << std::endl;
-    // clone_tests();
+    std::cout << YELLOW "tests for clone function" RESET << std::endl;
+    clone_tests();
 
-    // std::cout << YELLOW "\ntests for interface functions" RESET << std::endl;
-    // interface_tests();
+    std::cout << YELLOW "\ntests for interface functions" RESET << std::endl;
+    interface_tests();
 
-    // std::cout << YELLOW "\ntests for use function" RESET << std::endl;
-    // use_tests();
+    std::cout << YELLOW "\ntests for use function" RESET << std::endl;
+    use_tests();
 
     std::cout << YELLOW "\ntests for equip and unequip functions" RESET << std::endl;
     equip_unequip_tests();
+
+    std::cout << YELLOW "\nlearn and create materia tests" RESET << std::endl;
+    learn_create_materia_tests();
 
     return 0;
 }

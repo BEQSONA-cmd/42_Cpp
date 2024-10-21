@@ -10,7 +10,7 @@ Character::Character(std::string name) : name(name)
     }
 }
 
-Character::Character(const Character &type)
+Character::Character(const Character &type) : name(type.name)
 {
     this->operator=(type);
 }

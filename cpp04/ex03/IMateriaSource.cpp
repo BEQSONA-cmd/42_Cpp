@@ -10,7 +10,7 @@ MateriaSource::MateriaSource()
     }
 }
 
-MateriaSource::MateriaSource(const MateriaSource &type)
+MateriaSource::MateriaSource(const MateriaSource &type) : IMateriaSource()
 {
     this->operator=(type);
 }
@@ -63,6 +63,8 @@ AMateria* MateriaSource::createMateria(std::string const & type)
             return materia[i]->clone();
         i++;
     }
+    if(i == 4)
+        std::cout << RED "Materia not found" RESET << std::endl;
     return NULL;
 }
 
