@@ -15,6 +15,8 @@ Dog::Dog(const Dog &dog) : Animal(dog)
 
 Dog &Dog::operator=(const Dog &dog)
 {
+    if (this->brain)
+        delete this->brain;
     this->brain = new Brain(*dog.brain);
     this->type = dog.type;
     return *this;
