@@ -140,18 +140,18 @@ void presidential_pardon_form()
 
 int main()
 {   
-    // std::cout << YELLOW << "Sign form: " << RESET << std::endl;
-    // sign_form();
-    // std::cout << YELLOW << "\nLow grade to sign: " << RESET << std::endl;
-    // low_grade_to_sign();
-    // std::cout << YELLOW << "\nAlready signed: " << RESET << std::endl;
-    // already_signed();
-    // std::cout << YELLOW << "\nAForm exceptions: " << RESET << std::endl;
-    // form_exceptions();
-    // std::cout << YELLOW << "\nshrubbery creation form: " << RESET << std::endl;
-    // shrubbery_creation_form();
-    // std::cout << YELLOW << "\nrobotomy request form: " << RESET << std::endl;
-    // robotomy_request_form();
+    std::cout << YELLOW << "Sign form: " << RESET << std::endl;
+    sign_form();
+    std::cout << YELLOW << "\nLow grade to sign: " << RESET << std::endl;
+    low_grade_to_sign();
+    std::cout << YELLOW << "\nAlready signed: " << RESET << std::endl;
+    already_signed();
+    std::cout << YELLOW << "\nAForm exceptions: " << RESET << std::endl;
+    form_exceptions();
+    std::cout << YELLOW << "\nshrubbery creation form: " << RESET << std::endl;
+    shrubbery_creation_form();
+    std::cout << YELLOW << "\nrobotomy request form: " << RESET << std::endl;
+    robotomy_request_form();
     std::cout << YELLOW << "\npresidential pardon form: " << RESET << std::endl;
     presidential_pardon_form();
     return 0;
