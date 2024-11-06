@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <limits>
 #include <cmath>
+#include <cfloat>
 
 enum State 
 {

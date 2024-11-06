@@ -1,5 +1,22 @@
 #include "ScalarConverter.hpp"
 
+bool ft_strcmp(std::string str1, std::string str2)
+{
+    size_t i = 0;
+
+    if(str1.length() != str2.length())
+        return false;
+
+    while(i < str1.length())
+    {
+        if(str1[i] != str2[i])
+            return false;
+        i++;
+    }
+    return true;
+}
+
+
 bool is_int(std::string str)
 {
     size_t i = 0;
@@ -14,12 +31,14 @@ bool is_int(std::string str)
     return true;
 }
 
+
 bool is_float(std::string str)
 {
     size_t i = 0;
 
     int dot = 0;
     int f = 0;
+
     if (str[i] == '-')
         i++;
     while (i < str.length())
@@ -41,8 +60,13 @@ bool is_float(std::string str)
             return false;
         i++;
     }
-    if (f == 1)
-        return true;
+    if (f == 1 && str.length() > 1)
+    {
+        char *endptr;
+        float valid = std::strtof(str.c_str(), &endptr);
+        if (valid >= -FLT_MAX && valid <= FLT_MAX)
+            return true;
+    }
     return false;
 }
 
@@ -75,21 +99,21 @@ template <typename T>
 
 State determine_state(T n, const std::string &str, char *endptr)
 {
-     if(str.length() == 1)
-        return CHAR;
-    if (std::isnan(n))
+    if (std::isnan(n) && (ft_strcmp(str, "nanf") || ft_strcmp(str, "nan")))
         return NANF;
     if (std::isinf(n))
     {
-        if (n > 0)
+        if (n > 0 && (ft_strcmp(str, "+inff") || ft_strcmp(str, "+inf") || ft_strcmp(str, "inff") || ft_strcmp(str, "inf")))
             return POSITIVE_INF;
-        else
+        else if (n < 0 && (ft_strcmp(str, "-inff") || ft_strcmp(str, "-inf")))
             return NEGATIVE_INF;
     }
-    else if (endptr == str.c_str())
-        return IMPOSSIBLE;
     else if(is_int(str) || is_float(str) || is_double(str))
         return VALID;
+    else if(str.length() == 1)
+        return CHAR;
+    else if (endptr == str.c_str())
+        return IMPOSSIBLE;
     return IMPOSSIBLE;
 }
 
@@ -109,7 +133,7 @@ std::string ScalarConverter::convert_char(const std::string &str)
         long long str_int;
         char *endptr;
         str_int = std::strtol(str.c_str(), &endptr, 10);
-        if(str_int >=0 && str_int < 128)
+        if(str_int >= -128 && str_int < 128)
         {
             c = static_cast<char>(str_int);
             if(c >= 32 && c <= 126)
