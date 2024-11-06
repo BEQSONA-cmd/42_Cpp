@@ -41,7 +41,7 @@ bool is_float(std::string str)
             return false;
         i++;
     }
-    if (dot == 1 && f == 1)
+    if (f == 1)
         return true;
     return false;
 }
@@ -62,7 +62,7 @@ bool is_double(std::string str)
                 return false;
             i++;
         }
-        if (str[i] < '0' || str[i] > '9')
+        if ((str[i] < '0' || str[i] > '9') && str[i] != '\0')
             return false;
         i++;
     }
