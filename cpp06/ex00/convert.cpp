@@ -1,5 +1,23 @@
 #include "ScalarConverter.hpp"
 
+bool ft_strcmp(std::string str1, std::string str2)
+{
+    size_t i = 0;
+
+    if(str1.length() != str2.length())
+        return false;
+
+    while(i < str1.length())
+    {
+        if(str1[i] != str2[i])
+        {
+            return false;
+        }
+        i++;
+    }
+    return true;
+}
+
 bool is_int(std::string str)
 {
     size_t i = 0;
@@ -18,17 +36,16 @@ bool is_float(std::string str)
 {
     size_t i = 0;
 
-    int dot = 0;
+    if(ft_strcmp(str, "nanf") || ft_strcmp(str, "+inff") || ft_strcmp(str, "-inff"))
+        return true;
+
     int f = 0;
     if (str[i] == '-')
         i++;
     while (i < str.length())
     {
         if (str[i] == '.')
-        {
-            dot++;
             i++;
-        }
         if (str[i] == 'f')
         {
             f++;
@@ -41,7 +58,7 @@ bool is_float(std::string str)
             return false;
         i++;
     }
-    if (dot == 1 && f == 1)
+    if (f == 1)
         return true;
     return false;
 }
@@ -51,6 +68,10 @@ bool is_double(std::string str)
     size_t i = 0;
 
     int dot = 0;
+
+    if(ft_strcmp(str, "nan") || ft_strcmp(str, "+inf") || ft_strcmp(str, "-inf"))
+        return true;
+
     if (str[i] == '-')
         i++;
     while (i < str.length())
@@ -75,8 +96,6 @@ template <typename T>
 
 State determine_state(T n, const std::string &str, char *endptr)
 {
-     if(str.length() == 1)
-        return CHAR;
     if (std::isnan(n))
         return NANF;
     if (std::isinf(n))
@@ -86,10 +105,12 @@ State determine_state(T n, const std::string &str, char *endptr)
         else
             return NEGATIVE_INF;
     }
-    else if (endptr == str.c_str())
-        return IMPOSSIBLE;
     else if(is_int(str) || is_float(str) || is_double(str))
         return VALID;
+     if(str.length() == 1)
+        return CHAR;
+    else if (endptr == str.c_str())
+        return IMPOSSIBLE;
     return IMPOSSIBLE;
 }
 
@@ -103,13 +124,12 @@ std::string char_to_int_to_str(const std::string &str)
 std::string ScalarConverter::convert_char(const std::string &str)
 {
     char c;
-
     if(is_int(str) || is_float(str) || is_double(str))
     {
         long long str_int;
         char *endptr;
         str_int = std::strtol(str.c_str(), &endptr, 10);
-        if(str_int >=0 && str_int < 128)
+        if(str_int >= -128 && str_int < 128)
         {
             c = static_cast<char>(str_int);
             if(c >= 32 && c <= 126)
@@ -140,6 +160,8 @@ std::string ScalarConverter::convert_int(const std::string &str)
         ss << i;
         converted_str = ss.str();
     } 
+    else if (str.length() == 1)
+        converted_str = char_to_int_to_str(str);
     else
         converted_str = "impossible";
     

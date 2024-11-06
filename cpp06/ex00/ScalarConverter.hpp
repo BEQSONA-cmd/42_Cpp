@@ -43,8 +43,8 @@ class ScalarConverter
         static void convert(const std::string &str);
 };
 
-// concert
-
-// print
+bool is_int(std::string str);
+bool is_float(std::string str);
+bool is_double(std::string str);
 
 #endif
