@@ -4,21 +4,25 @@
 
 ScalarConverter::ScalarConverter()
 {
+    std::cout << YELLOW << "ScalarConverter created" << RESET << std::endl;
 }
 
 ScalarConverter::ScalarConverter(const ScalarConverter &scalarconverter)
 {
-    *this = scalarconverter;
+    (void)scalarconverter;
+    std::cout << YELLOW << "ScalarConverter created" << RESET << std::endl;
 }
 
 ScalarConverter &ScalarConverter::operator=(const ScalarConverter &scalarconverter)
 {
     (void)scalarconverter;
+    std::cout << YELLOW << "ScalarConverter created" << RESET << std::endl;
     return *this;
 }
 
 ScalarConverter::~ScalarConverter()
 {
+    std::cout << YELLOW << "ScalarConverter destroyed" << RESET << std::endl;
 }
 
 void ScalarConverter::convert(const std::string &str)
