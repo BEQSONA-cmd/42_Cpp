@@ -1,88 +1,200 @@
 #include "ScalarConverter.hpp"
 
-// char ft_char_atoi(int n)
-// {
-//     char c = 0;
-//     if (n >= 0 && n <= 127)
-//         c = static_cast<char>(n);
-//     return c;
-// }
-
-int ft_atoi(const std::string str)
+bool is_int(std::string str)
 {
     size_t i = 0;
-    int res = 0;
-    bool is_negative = false;
-
     if (str[i] == '-')
-    {
-        is_negative = true;
         i++;
-    }
-
     while (i < str.length())
     {
         if (str[i] < '0' || str[i] > '9')
-            return 0;
-
-        if (str[i] >= '0' && str[i] <= '9')
-            res = res * 10 + str[i] - '0';
+            return false;
         i++;
     }
-
-    if (is_negative)
-        res = res * -1;
-    return res;
+    return true;
 }
 
-// float convert
-float ft_parse_integer_part(const std::string &str, size_t *i, int *sign)
+bool is_float(std::string str)
 {
-    float res = 0;
-    *sign = 1;
-    if (str[*i] == '-')
-    {
-        *sign = -1;
-        (*i)++;
-    }
-    while (str[*i] != '.' && str[*i] != '\0' && str[*i] != '\n')
-    {
-        res = res * 10 + str[*i] - '0';
-        (*i)++;
-    }
-    return res;
-}
-
-float ft_parse_decimal_part(const std::string &str, size_t i)
-{
-    float dec = 0;
-    int j = 0;
-    if (str[i] == '.')
-    {
-        i++;
-        while (i < str.length() && str[i] != '\0' && str[i] != '\n')
-        {
-            dec = dec * 10 + str[i] - '0';
-            i++;
-            j++;
-        }
-    }
-    while (j > 0)
-    {
-        dec = dec / 10;
-        j--;
-    }
-    return dec;
-}
-
-float ft_float_atoi(const std::string &str)
-{
-    float res;
-    float dec;
     size_t i = 0;
-    int sign = 1;
 
-    res = ft_parse_integer_part(str, &i, &sign);
-    dec = ft_parse_decimal_part(str, i);
-    return sign * (res + dec);
+    int dot = 0;
+    int f = 0;
+    if (str[i] == '-')
+        i++;
+    while (i < str.length())
+    {
+        if (str[i] == '.')
+        {
+            dot++;
+            i++;
+        }
+        if (str[i] == 'f')
+        {
+            f++;
+            i++;
+            if(str[i] != '\0')
+                return false;
+            break;
+        }
+        if (str[i] < '0' || str[i] > '9')
+            return false;
+        i++;
+    }
+    if (dot == 1 && f == 1)
+        return true;
+    return false;
+}
+
+bool is_double(std::string str)
+{
+    size_t i = 0;
+
+    int dot = 0;
+    if (str[i] == '-')
+        i++;
+    while (i < str.length())
+    {
+        if (str[i] == '.')
+        {
+            dot++;
+            if (dot > 1)
+                return false;
+            i++;
+        }
+        if (str[i] < '0' || str[i] > '9')
+            return false;
+        i++;
+    }
+    if (dot == 1)
+        return true;
+    return false;
+}
+
+template <typename T>
+
+State determine_state(T n, const std::string &str, char *endptr)
+{
+     if(str.length() == 1)
+        return CHAR;
+    if (std::isnan(n))
+        return NANF;
+    if (std::isinf(n))
+    {
+        if (n > 0)
+            return POSITIVE_INF;
+        else
+            return NEGATIVE_INF;
+    }
+    else if (endptr == str.c_str())
+        return IMPOSSIBLE;
+    else if(is_int(str) || is_float(str) || is_double(str))
+        return VALID;
+    return IMPOSSIBLE;
+}
+
+std::string char_to_int_to_str(const std::string &str)
+{
+    std::stringstream ss;
+    ss << static_cast<int>(str[0]);
+    return ss.str();
+}
+
+std::string ScalarConverter::convert_char(const std::string &str)
+{
+    char c;
+
+    if(is_int(str) || is_float(str) || is_double(str))
+    {
+        long long str_int;
+        char *endptr;
+        str_int = std::strtol(str.c_str(), &endptr, 10);
+        if(str_int >=0 && str_int < 128)
+        {
+            c = static_cast<char>(str_int);
+            if(c >= 32 && c <= 126)
+                return "'" + std::string(1, c) + "'";
+            else
+                return "Non displayable";
+        }
+        else
+            return "impossible";
+    }
+    else if(str.length() == 1)
+        return "'" + str + "'";
+    else
+        return "impossible";
+}
+
+std::string ScalarConverter::convert_int(const std::string &str)
+{
+    long long i;
+    char *endptr;
+    i = std::strtol(str.c_str(), &endptr, 10);
+
+    std::string converted_str;
+
+    if ((is_int(str) || is_float(str) || is_double(str)) && i >= INT_MIN && i <= INT_MAX)
+    {
+        std::stringstream ss;
+        ss << i;
+        converted_str = ss.str();
+    } 
+    else
+        converted_str = "impossible";
+    
+    return converted_str;
+}
+
+std::string ScalarConverter::convert_float(const std::string &str)
+{
+    float f;
+    char *endptr;
+    f = std::strtof(str.c_str(), &endptr);
+
+    State state = determine_state(f, str, endptr);
+    
+    switch (state)
+    {
+        case IMPOSSIBLE: return ("impossible");
+        case NANF: return ("nanf");
+        case POSITIVE_INF: return ("+inff");
+        case NEGATIVE_INF: return ("-inff");
+        case CHAR: return (char_to_int_to_str(str) + ".0f");
+        case VALID:
+            std::stringstream ss;
+            if ((std::fabs(f) >= 1e6 || std::fabs(f) < 1e-3) && f != 0)
+                ss << std::scientific << std::setprecision(5) << f << "f";
+            else
+                ss << std::fixed << std::setprecision(1) << f << "f";
+            return (ss.str());
+    }
+    return ("impossible");
+}
+
+
+std::string ScalarConverter::convert_double(const std::string &str)
+{
+    double d;
+    char *endptr;
+    d = std::strtod(str.c_str(), &endptr);
+
+    State state = determine_state(d, str, endptr);
+    
+    switch (state)
+    {
+        case IMPOSSIBLE: return ("impossible");
+        case NANF: return ("nan");
+        case POSITIVE_INF: return ("+inf");
+        case NEGATIVE_INF: return ("-inf");
+        case CHAR: return (char_to_int_to_str(str) + ".0");
+        case VALID:
+            std::stringstream ss;
+            if ((std::fabs(d) >= 1e6 || std::fabs(d) < 1e-3) && d != 0)
+                ss << std::scientific << std::setprecision(5) << d;
+            else
+                ss << std::fixed << std::setprecision(1) << d;
+            return (ss.str());
+    }
+    return ("impossible");
 }
