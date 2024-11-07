@@ -7,6 +7,8 @@
 #define CYAN "\033[1;36m"
 #define RESET "\033[0m"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 class Base
 {
@@ -14,5 +16,9 @@ class Base
     public:
         virtual ~Base();
 };
+
+Base *generate(void);
+void identify(Base* p);
+void identify(Base& p);
 
 #endif
