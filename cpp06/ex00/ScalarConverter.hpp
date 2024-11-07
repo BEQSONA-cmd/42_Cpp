@@ -29,10 +29,9 @@ enum State
 class ScalarConverter
 {
     private:
-
-    public:
         ScalarConverter();
         ScalarConverter(const ScalarConverter &scalarconverter);
+    public:
         ScalarConverter &operator=(const ScalarConverter &scalarconverter);
         ~ScalarConverter();
 

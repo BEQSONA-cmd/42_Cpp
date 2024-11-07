@@ -10,16 +10,15 @@ void init_data(Data &data)
 
 int main(void)
 {
-    Serializer serializer;
     Data data;
 
     init_data(data);
 
-    uintptr_t raw = serializer.serialize(&data);
-    Data new_data = *serializer.deserialize(raw);
+    uintptr_t raw = Serializer::serialize(&data);
+    Data *new_data = Serializer::deserialize(raw);
 
-    std::cout << "new_data.str: " << new_data.str << std::endl;
-    std::cout << "new_data.num: " << new_data.num << std::endl;
+    std::cout << "new_data.str: " << new_data->str << std::endl;
+    std::cout << "new_data.num: " << new_data->num << std::endl;
 
     return 0;
 }

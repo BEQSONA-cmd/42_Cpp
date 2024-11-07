@@ -9,8 +9,13 @@ int main(int ac, char **av)
     }
 
     std::string str = av[1];
-    ScalarConverter converter;
-    converter.convert(str);
-
+    try
+    {
+        ScalarConverter::convert(av[1]);
+    }
+    catch(const std::exception &err)
+    {
+        std::cerr << err.what() << '\n';
+    }
     return 0;
 }

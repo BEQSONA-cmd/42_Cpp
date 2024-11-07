@@ -21,14 +21,14 @@ struct Data
 class Serializer
 {
     private:
-    public:
         Serializer();
         Serializer(const Serializer &serializer);
+    public:
         Serializer &operator=(const Serializer &serializer);
         ~Serializer();
 
-        uintptr_t serialize(Data* ptr);
-        Data* deserialize(uintptr_t raw);
+        static uintptr_t serialize(Data* ptr);
+        static Data* deserialize(uintptr_t raw);
 };
 
 #endif
