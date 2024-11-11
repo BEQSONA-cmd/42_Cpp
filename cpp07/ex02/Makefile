@@ -1,6 +1,6 @@
 NAME =  Array
 CC = c++ -std=c++98
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra
 
 SRC = *.cpp
 OBJ = $(SRC:.cpp=.o)
