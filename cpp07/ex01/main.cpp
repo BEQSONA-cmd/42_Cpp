@@ -25,15 +25,16 @@ int main()
     int size3 = sizeof(tab3) / sizeof(tab3[0]);
 
     std::cout << BLUE "Int array:" RESET << std::endl;
-    iter(tab, size, print);
+    
+    iter<int>(tab, size, print);
     std::cout << std::endl;
 
     std::cout << GREEN "Char array:" RESET << std::endl;
-    iter(tab2, size2, print_2);
+    iter<const char>(tab2, size2, print_2);
     std::cout << std::endl;
 
     std::cout << CYAN "Float array:" RESET << std::endl;
-    iter(tab3, size3, print);
+    iter<float>(tab3, size3, print);
     std::cout << std::endl;
 
     return 0;
