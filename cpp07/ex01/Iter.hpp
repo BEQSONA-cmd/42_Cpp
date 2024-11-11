@@ -12,6 +12,11 @@ template <typename T>
 void iter(T *array, int length, void (*f)(T const &))
 {
     int i = 0;
+    if(!array || !f || length <= 0)
+    {
+        std::cout << RED "Error: Invalid input" RESET << std::endl;
+        return;
+    }
     while (i < length)
     {
         f(array[i]);

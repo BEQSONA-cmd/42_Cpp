@@ -11,17 +11,20 @@ int main()
     int tab[] = {0, 1, 2, 3, 4};
     char tab2[] = {'a', 'b', 'c', 'd', 'e'};
     float tab3[] = {0.1, 0.2, 0.3, 0.4, 0.5};
+    int size = sizeof(tab) / sizeof(tab[0]);
+    int size2 = sizeof(tab2) / sizeof(tab2[0]);
+    int size3 = sizeof(tab3) / sizeof(tab3[0]);
 
     std::cout << BLUE "Int array:" RESET << std::endl;
-    iter(tab, 5, print);
+    iter(tab, size, print);
     std::cout << std::endl;
 
     std::cout << GREEN "Char array:" RESET << std::endl;
-    iter(tab2, 5, print);
+    iter(tab2, size2, print);
     std::cout << std::endl;
 
     std::cout << CYAN "Float array:" RESET << std::endl;
-    iter(tab3, 5, print);
+    iter(tab3, size3, print);
     std::cout << std::endl;
 
     return 0;
