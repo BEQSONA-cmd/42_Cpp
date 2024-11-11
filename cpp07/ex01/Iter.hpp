@@ -9,7 +9,7 @@
 #include <iostream>
 
 template <typename T>
-void iter(T *array, int length, void (*f)(T const &))
+void iter(const T *array, int length, void (*f)(T const &))
 {
     int i = 0;
     if(!array || !f || length <= 0)
