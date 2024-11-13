@@ -21,7 +21,6 @@ class Exception : public std::exception
         virtual const char *what() const throw(){ return this->message.c_str(); }
 };
 
-
 class Span
 {
     private:
