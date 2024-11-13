@@ -1,6 +1,6 @@
 NAME =  Span
 CC = c++ -std=c++98
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra -O3
 
 SRC = *.cpp
 OBJ = $(SRC:.cpp=.o)

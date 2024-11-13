@@ -1,4 +1,5 @@
 #include "Span.hpp"
+#include <ctime>
 
 // int main()
 // {
@@ -23,8 +24,7 @@ void full_array(void)
         sp.addNumber(17);
         sp.addNumber(9);
         sp.addNumber(11);
-        std::cout << "Shortest span: " << sp.shortestSpan() << std::endl;
-        std::cout << "Longest span: " << sp.longestSpan() << std::endl;
+        sp.addNumber(11);
     }
     catch (std::exception &e)
     {
@@ -32,7 +32,57 @@ void full_array(void)
     }
 }
 
-int main(void)
+void span_test(void)
 {
-    return (0);
+    int size = 10000000;
+    Span sp = Span(size);
+    try
+    {
+        int i = 0;
+        while (i < size)
+        {
+            sp.addNumber(rand());
+            i++;
+        }
+        std::cout << GREEN "Shortest span: " BLUE << sp.shortestSpan() << RESET << std::endl;
+        std::cout << GREEN "Longest span: " BLUE << sp.longestSpan() << RESET << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
+void basic_test(void)
+{
+    Span sp = Span(5);
+    try
+    {
+        sp.addNumber(1);
+        sp.addNumber(1);
+        sp.addNumber(-100);
+        sp.addNumber(100);
+        std::cout << GREEN "Shortest span: " BLUE << sp.shortestSpan() << RESET << std::endl;
+        std::cout << GREEN "Longest span: " BLUE << sp.longestSpan() << RESET << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
+
+int main() 
+{
+    srand(time(NULL));
+    std::cout << YELLOW "Full array test" RESET << std::endl;
+    full_array();
+
+    std::cout << YELLOW "Shortest and longest span test" RESET << std::endl;
+    span_test();
+
+    std::cout << YELLOW "Basic test" RESET << std::endl;
+    basic_test();
+
+    return 0;
 }

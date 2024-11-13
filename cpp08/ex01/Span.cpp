@@ -31,11 +31,11 @@ void Span::addNumber(int n)
     if (this->arr.size() >= this->len)
         throw ArrayIsFull();
     this->arr.push_back(n);
-    std::sort(this->arr.begin(), this->arr.end());
 }
 
 int Span::longestSpan(void)
 {
+    std::sort(this->arr.begin(), this->arr.end());
     if (this->arr.size() < 2)
         throw NotEnoughElements();
     if  (this->arr.size() == 2)
@@ -48,6 +48,7 @@ int Span::longestSpan(void)
 
 int Span::shortestSpan(void)
 {
+    std::sort(this->arr.begin(), this->arr.end());
     if (this->arr.size() < 2)
         throw NotEnoughElements();
     if  (this->arr.size() == 2)
