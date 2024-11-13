@@ -79,6 +79,8 @@ void random_tests(void)
 }
 
 
+template <class Array>
+
 int main()
 {
     std::cout << GREEN "Constructor test: " RESET << std::endl;
