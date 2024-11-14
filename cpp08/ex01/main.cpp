@@ -71,10 +71,29 @@ void basic_test(void)
     }
 }
 
+void improved_add_number(void)
+{
+    Span sp = Span(10);
+    try
+    {
+        sp.addNumber(1, 5);
+        std::cout << GREEN "Shortest span: " BLUE << sp.shortestSpan() << RESET << std::endl;
+        std::cout << GREEN "Longest span: " BLUE << sp.longestSpan() << RESET << std::endl;
+        sp.addNumber(100, 5);
+        std::cout << GREEN "Shortest span: " BLUE << sp.shortestSpan() << RESET << std::endl;
+        std::cout << GREEN "Longest span: " BLUE << sp.longestSpan() << RESET << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+}
+
 
 int main() 
 {
     srand(time(NULL));
+    
     std::cout << YELLOW "Full array test" RESET << std::endl;
     full_array();
 
@@ -83,6 +102,9 @@ int main()
 
     std::cout << YELLOW "Basic test" RESET << std::endl;
     basic_test();
+
+    std::cout << YELLOW "Improved add number test" RESET << std::endl;
+    improved_add_number();
 
     return 0;
 }

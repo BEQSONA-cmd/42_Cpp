@@ -35,6 +35,7 @@ class Span
         ~Span();
 
         void addNumber(int n);
+        void addNumber(int n, unsigned int times);
         int shortestSpan(void);
         int longestSpan(void);
 

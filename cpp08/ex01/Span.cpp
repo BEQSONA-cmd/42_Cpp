@@ -33,6 +33,16 @@ void Span::addNumber(int n)
     this->arr.push_back(n);
 }
 
+void Span::addNumber(int n, unsigned int times)
+{
+    unsigned int i = 0;
+    while (i < times)
+    {
+        this->addNumber(n);
+        i++;
+    }
+}
+
 int Span::longestSpan(void)
 {
     std::sort(this->arr.begin(), this->arr.end());
