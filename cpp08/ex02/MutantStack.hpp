@@ -9,28 +9,17 @@
 #include <iostream>
 #include <algorithm>
 #include <stack>
-#include <exception>
-
-class Exception : public std::exception
-{
-    private:
-        std::string message;
-    public:
-        Exception(std::string message){ this->message = message; }
-        virtual ~Exception() throw() {}
-        virtual const char *what() const throw(){ return this->message.c_str(); }
-};
-
 
 template <typename T>
-class MutantStack : public std::stack<int>
+class MutantStack : public std::stack<T>
 {
     private:
     public:
-        MutantStack();
-        MutantStack(const MutantStack &mutantstack);
-        MutantStack &operator=(const MutantStack &mutantstack);
-        ~MutantStack();
+        typedef typename std::stack<T>::container_type::iterator iterator;
+        iterator begin();
+        iterator end();
 };
+
+#include "MutantStack.tpp"
 
 #endif
