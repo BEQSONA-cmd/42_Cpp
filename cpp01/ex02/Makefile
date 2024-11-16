@@ -1,15 +1,14 @@
 NAME = this_is_brain
+CXX = c++ -std=c++98
+CPPFLAGS = -Wall -Werror -Wextra -fsanitize=address
 
-CC = c++ -std=c++98
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
-
-SRC = *.cpp
+SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(FLAGS) $(SRC) -o $(NAME)
+	$(CXX) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 clean:
 	rm -rf $(OBJ)
