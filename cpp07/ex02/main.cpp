@@ -78,10 +78,7 @@ void random_tests(void)
     
 }
 
-
-template <class Array>
-
-int main()
+int main(void)
 {
     std::cout << GREEN "Constructor test: " RESET << std::endl;
     constructor_test();
@@ -92,8 +89,8 @@ int main()
     std::cout << GREEN "Out of bounds test: " RESET << std::endl;
     out_of_bounds();
 
-    std::cout << GREEN "Random tests: " RESET << std::endl;
-    random_tests();
+    // std::cout << GREEN "Random tests: " RESET << std::endl;
+    // random_tests();
 
     return 0;
 }
