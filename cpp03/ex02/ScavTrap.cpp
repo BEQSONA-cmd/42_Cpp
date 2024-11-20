@@ -18,7 +18,7 @@ ScavTrap::ScavTrap(std::string name)
     std::cout << YELLOW << "ScavTrap: Default constructor called" << RESET << std::endl;
 }
 
-ScavTrap::ScavTrap(const ScavTrap &scavtrap)
+ScavTrap::ScavTrap(const ScavTrap &scavtrap) : ClapTrap(scavtrap)
 {
     (void)scavtrap; // to avoid warning (unused parameter 'scavtrap')
     std::cout << YELLOW << "ScavTrap: Copy constructor called" << RESET << std::endl;

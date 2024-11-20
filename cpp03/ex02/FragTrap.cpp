@@ -18,7 +18,7 @@ FragTrap::FragTrap(std::string name)
     std::cout << YELLOW << "FragTrap: Default constructor called" << RESET << std::endl;
 }
 
-FragTrap::FragTrap(const FragTrap &fragtrap)
+FragTrap::FragTrap(const FragTrap &fragtrap) : ClapTrap(fragtrap)
 {
     (void)fragtrap; // to avoid warning (unused parameter 'fragtrap')
     std::cout << YELLOW << "FragTrap: Copy constructor called" << RESET << std::endl;

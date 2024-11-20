@@ -11,7 +11,7 @@ $(NAME): $(OBJ)
 	$(CXX) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJ)q
 
 fclean: clean
 	rm -rf $(NAME)

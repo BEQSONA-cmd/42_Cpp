@@ -18,7 +18,7 @@ ScavTrap::ScavTrap(std::string name)
     // std::cout << YELLOW << "ScavTrap: Default constructor called" << RESET << std::endl;
 }
 
-ScavTrap::ScavTrap(const ScavTrap &scavtrap)
+ScavTrap::ScavTrap(const ScavTrap &scavtrap) : ClapTrap(scavtrap)
 {
     this->name = scavtrap.name;
     this->hit_points = scavtrap.hit_points;

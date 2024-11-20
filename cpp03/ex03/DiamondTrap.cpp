@@ -21,7 +21,7 @@ DiamondTrap::DiamondTrap(std::string name)
     std::cout << YELLOW << "DiamondTrap: Default constructor called" << RESET << std::endl;
 }
 
-DiamondTrap::DiamondTrap(const DiamondTrap &diamondtrap)
+DiamondTrap::DiamondTrap(const DiamondTrap &diamondtrap) : ClapTrap(diamondtrap), ScavTrap(diamondtrap), FragTrap(diamondtrap)
 {
     this->name = diamondtrap.name;
     ClapTrap::name = diamondtrap.name;
