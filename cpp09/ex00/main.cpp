@@ -1,50 +1,92 @@
-#include "BitcoinExchange.hpp"
+#define YELLOW "\033[0;33m"
+#define GREEN "\033[0;32m"
+#define RED "\033[0;31m"
+#define BLUE "\033[0;34m"
+#define CYAN "\033[0;36m"
+#define RESET "\033[0m"
+#include <algorithm>
+#include <iostream>
+#include <map>
 #include <fstream>
 #include <sstream>
 
 bool checkDateFormat(const std::string& dateString) 
 {
-
-    char dash;
+    char dash = '-';
     std::stringstream ss(dateString);
 
-    struct tm date;
-    struct tm newDate;
+    struct tm date = {};
+    struct tm newDate = {};
 
     ss >> date.tm_year >> dash >> date.tm_mon >> dash >> date.tm_mday;
-    date.tm_year -= 1900; date.tm_mon -= 1;
-    date.tm_hour = 1;            // Hour
-    date.tm_min = 0;             // Minute
-    date.tm_sec = 0;             // Second    
+    date.tm_year -= 1900; 
+    date.tm_mon -= 1;   
 
     newDate = date;
-
-	mktime(&newDate);
-	
-	if (newDate.tm_year == date.tm_year && newDate.tm_mon == date.tm_mon && newDate.tm_mday == date.tm_mday)
-		return true;
-	return false;
+    mktime(&newDate);
+    if (date.tm_year == newDate.tm_year && date.tm_mon == newDate.tm_mon && date.tm_mday == newDate.tm_mday)
+        return true;
+    return false;
 }
 
-std::map<std::string , double> make_map(const std::string &filename, char delim)
+std::map<std::string , double> make_data_map(const std::string &filename)
 {
+	char delim = ',';
 	std::map<std::string, double> map;
-	(void)delim;
+	std::string key = "";
+	double value = 0;
 
 	std::ifstream file(const_cast<char *>(filename.c_str()));
 	if(!file.is_open())
 	{
-		std::cerr << "Error: could not open file " << filename << std::endl;
+		std::cerr << RED "Error: could not open file => " BLUE << filename <<  RESET "\n";
 		exit(1);
 	}
 	std::string line;
 
 	while(std::getline(file, line))
 	{
-		std::cout << line << std::endl;
+		std::stringstream ss(line);
+		std::getline(ss, key, delim);
+		if (!checkDateFormat(key))
+			std::cerr << RED "Error: bad input => " BLUE << key <<  RESET "\n";
+		ss >> value;
+		map[key] = value;
 	}
 	return map;
 }
+
+void check_map(std::map<std::string, double> &data, const std::string &filename)
+{
+	char delim = '|';
+	std::string date = "";
+	double amount = 0;
+
+	std::ifstream file(const_cast<char *>(filename.c_str()));
+	if(!file.is_open())
+	{
+		std::cerr << RED "Error: could not open file => " BLUE << filename <<  RESET "\n";
+		exit(1);
+	}
+	std::string line;
+
+	while(std::getline(file, line))
+	{
+		std::stringstream ss(line);
+		std::getline(ss, date, delim);
+		if (!checkDateFormat(date))
+			std::cerr << RED "Error: bad input => " BLUE << date <<  RESET "\n";
+		ss >> amount;
+		if (data.find(date) != data.end())
+		{
+			std::cout << date << " => " << data[date] * amount << std::endl;
+		}
+		else
+			std::cerr << RED "Error: date not found => " BLUE << date <<  RESET "\n";
+		
+	}
+}
+
 
 // data.csv
 // 2009-01-11,0
@@ -67,10 +109,8 @@ int main(int ac, char **av)
 	(void)ac;
 	(void)av;
 
-	std::map<std::string, double> data = make_map("data.csv", ',');
-	std::map<std::string, double> input = make_map("input.txt", '|');
-
-	BitcoinExchange bitcoinexchange(data, input);
+	std::map<std::string, double> data = make_data_map("data.csv");
+	check_map(data, "input.txt");
 
 	return (0);
 }

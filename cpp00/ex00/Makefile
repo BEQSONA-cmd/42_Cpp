@@ -1,3 +1,4 @@
+
 NAME = megaphone
 CXX = c++ -std=c++98
 CPPFLAGS = -Wall -Werror -Wextra -fsanitize=address
