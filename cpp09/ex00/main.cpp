@@ -104,6 +104,7 @@ void check_map(std::map<std::string, double> &data, const std::string &filename)
 // 2011-01-03 | 2
 // 2011-01-03 | 1
 // 2011-01-03 | 1.2
+
 int main(int ac, char **av)
 {
 	(void)ac;
