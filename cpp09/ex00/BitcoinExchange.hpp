@@ -13,6 +13,6 @@
 #include <sstream>
 
 std::map<std::string , double> make_data_map(void);
-bool error(std::map<std::string, double> &data, const std::string &date, double amount);
+bool error(std::map<std::string, double> &data, std::string &line);
 
 #endif

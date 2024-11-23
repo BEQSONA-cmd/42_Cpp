@@ -42,7 +42,7 @@ void check_map(std::map<std::string, double> &data, const std::string &filename)
 		std::getline(ss, date, delim);
 		date.erase(std::remove(date.begin(), date.end(), ' '), date.end());
 		ss >> amount;
-		if (error(data, date, amount))
+		if (error(data, line))
 			continue;
 		double price = return_price(data, date);
 		std::cout << date << " => " << price * amount << std::endl;

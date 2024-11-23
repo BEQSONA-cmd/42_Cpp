@@ -32,8 +32,28 @@ bool check_valid_date(std::map<std::string, double> &data, const std::string &da
 	return true;
 }
 
-bool error(std::map<std::string, double> &data, const std::string &date, double amount)
+bool error(std::map<std::string, double> &data, std::string &line)
 {
+	if (line.empty())
+		return true;
+
+	char delim = '|';	
+	std::stringstream ss(line);
+	std::string date = "";
+	double amount = 0;
+	std::getline(ss, date, delim);
+	if(date.length() != 11)
+	{
+		std::cerr << RED "Error: bad input => " BLUE << date <<  RESET "\n";
+		return true;
+	}
+	date.erase(date.size() - 1);
+	ss >> amount;
+	if (line.find(delim) == std::string::npos || line.find(delim) != line.rfind(delim))
+	{
+		std::cerr << RED "Error: bad input => " BLUE << line <<  RESET "\n";
+		return true;
+	}
 	if (!checkDateFormat(date))
 	{
 		std::cerr << RED "Error: bad input => " BLUE << date <<  RESET "\n";
@@ -52,6 +72,11 @@ bool error(std::map<std::string, double> &data, const std::string &date, double 
 	if(amount >= 1000)
 	{
 		std::cerr << RED "Error: too big number => " BLUE << amount <<  RESET "\n";
+		return true;
+	}
+	if (ss.fail())
+	{
+		std::cerr << RED "Error: bad input => " BLUE << date <<  RESET "\n";
 		return true;
 	}
 	return false;
