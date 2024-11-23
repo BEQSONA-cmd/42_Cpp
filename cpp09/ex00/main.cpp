@@ -51,11 +51,14 @@ void check_map(std::map<std::string, double> &data, const std::string &filename)
 
 int main(int ac, char **av)
 {
-	(void)ac;
-	(void)av;
-
+	if (ac != 2)
+	{
+		std::cerr << RED "Error: bad input => " BLUE "usage: ./bitcoin [filename]" <<  RESET "\n";
+		return (1);
+	}
+	std::string filename = av[1];
 	std::map<std::string, double> data = make_data_map();
-	check_map(data, "input.txt");
+	check_map(data, filename);
 
 	return (0);
 }
