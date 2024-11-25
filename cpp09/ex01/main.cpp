@@ -8,7 +8,7 @@ int main(int ac, char **av)
         return (1);
     }
     std::string arguments = av[1];
-    RPN rpn(arguments);
-    rpn.calculate();
+    RPN::calculate(arguments);
+    
     return 0;
 }

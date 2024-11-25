@@ -1,8 +1,10 @@
 #include "RPN.hpp"
 
-RPN::RPN(std::string arguments)
+void RPN::calculate(std::string arguments)
 {
     std::string::iterator it = arguments.begin();
+    std::stack<double> numbers;
+
     while (it != arguments.end())
     {
         if (DIGIT(*it))
@@ -17,41 +19,21 @@ RPN::RPN(std::string arguments)
         }
         else if (OPERATOR(*it))
         {
+            double last = numbers.top();
+            numbers.pop();
+            double before_last = numbers.top();
+            numbers.pop();
+
             switch (*it)
             {
-                case '+': operators.push(ADD); break;
-                case '-': operators.push(SUB); break;
-                case '*': operators.push(MUL); break;
-                case '/': operators.push(DIV); break;
+                case '+': numbers.push(before_last + last); break;
+                case '-': numbers.push(before_last - last); break;
+                case '*': numbers.push(before_last * last); break;
+                case '/': numbers.push(before_last / last); break;
             }
-            it++;
         }
-        else
-            it++;
-    }
-}
+        it++;
 
-void RPN::operation(eToken token)
-{
-    double a = numbers.top();
-    numbers.pop();
-    double b = numbers.top();
-    numbers.pop();
-    switch (token)
-    {
-        case ADD: numbers.push(a + b); break;
-        case SUB: numbers.push(a - b); break;
-        case MUL: numbers.push(a * b); break;
-        case DIV: numbers.push(a / b); break;
     }
-}
-
-void RPN::calculate(void)
-{
-    while (!operators.empty())
-    {
-        operation(operators.top());
-        operators.pop();
-    }
-    std::cout << numbers.top() << std::endl;
+    std::cout << GREEN "Result: " BLUE << numbers.top() << RESET "\n";
 }

@@ -24,19 +24,13 @@ enum eToken
 class RPN
 {
     private:
-        std::stack<double> numbers;
-        std::stack<eToken> operators;
-
         RPN() {};
         RPN(const RPN &rpn) { (void)rpn; };
         RPN &operator=(const RPN &rpn) { (void)rpn; return *this; };
-
-    public:
-        RPN(std::string arguments);
         ~RPN() {};
 
-        void operation(eToken token);
-        void calculate(void);
+    public:
+        static void calculate(std::string arguments);
 };
 
 #endif
