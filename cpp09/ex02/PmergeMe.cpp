@@ -1,20 +1,22 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe()
+void init(std::vector<int> &num_vector, char **av)
 {
+    int i = 1;
+    while (av[i])
+    {
+        num_vector.push_back(atoi(av[i]));
+        i++;
+    }
 }
 
-PmergeMe::PmergeMe(const PmergeMe &pmergeme)
+void print(std::vector<int> nums)
 {
-    *this = pmergeme;
-}
-
-PmergeMe &PmergeMe::operator=(const PmergeMe &pmergeme)
-{
-    (void)pmergeme;
-    return *this;
-}
-
-PmergeMe::~PmergeMe()
-{
+    size_t i = 0;
+    while(i < nums.size())
+    {
+        std::cout << nums[i] << " ";
+        i++;
+    }
+    std::cout << std::endl;
 }

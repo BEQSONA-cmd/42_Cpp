@@ -1,15 +1,28 @@
 #include "PmergeMe.hpp"
 
+void PmergeMe(std::vector<int> nums)
+{
+    size_t i = 0;
+    while(i < nums.size())
+    {
+        i++;
+    }
+}
+
+
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-    if (ac != 3)
+    if(ac < 2)
     {
-        std::cerr << "Usage: ./pmergeMe file1 file2" << std::endl;
+        std::cerr << "Usage: ./PmergeMe [num1] [num2] [num3] ..." << std::endl;
         return 1;
     }
-    // PmergeMe pmergeMe(av[1], av[2]);
-    // pmergeMe.merge();
+    std::vector<int> num_vector;
+    init(num_vector, av);
+
+    PmergeMe(num_vector);
+
+    print(num_vector);
+
     return 0;
 }

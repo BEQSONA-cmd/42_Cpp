@@ -7,15 +7,10 @@
 #define CYAN "\033[1;36m"
 #define RESET "\033[0m"
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-class PmergeMe
-{
-    private:
-    public:
-        PmergeMe();
-        PmergeMe(const PmergeMe &pmergeme);
-        PmergeMe &operator=(const PmergeMe &pmergeme);
-        ~PmergeMe();
-};
+void init(std::vector<int> &num_vector, char **av);
+void print(std::vector<int> nums);
 
 #endif
