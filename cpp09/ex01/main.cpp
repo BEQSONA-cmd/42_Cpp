@@ -14,6 +14,5 @@ int main(int ac, char **av)
     } catch (std::exception &e){
         std::cerr << e.what() << RESET "\n";
     }
-    
     return 0;
 }

@@ -4,6 +4,7 @@ void RPN::calculate(std::string arguments)
 {
     if(arguments.empty() || arguments.size() < 5)
         throw Exception(RED "Invalid arguments" RESET);
+    
     std::string::iterator it = arguments.begin();
     std::stack<double> numbers;
 

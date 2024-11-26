@@ -71,4 +71,3 @@ for i in ${!wrong_tests[@]}; do
     fi
     echo
 done
-

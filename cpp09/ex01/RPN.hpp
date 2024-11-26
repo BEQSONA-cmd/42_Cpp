@@ -13,6 +13,7 @@
 
 #define OPERATOR(x) (x == '+' || x == '-' || x == '*' || x == '/')
 #define DIGIT(x) (x >= '0' && x <= '9')
+
 class Exception : public std::exception
 {
     private:
