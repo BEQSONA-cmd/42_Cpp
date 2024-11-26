@@ -8,7 +8,12 @@ int main(int ac, char **av)
         return (1);
     }
     std::string arguments = av[1];
-    RPN::calculate(arguments);
+
+    try {
+        RPN::calculate(arguments);
+    } catch (std::exception &e){
+        std::cerr << e.what() << RESET "\n";
+    }
     
     return 0;
 }

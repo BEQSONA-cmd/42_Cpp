@@ -9,16 +9,18 @@
 #include <iostream>
 #include <stack>
 #include <algorithm>
+#include <exception>
 
 #define OPERATOR(x) (x == '+' || x == '-' || x == '*' || x == '/')
 #define DIGIT(x) (x >= '0' && x <= '9')
-
-enum eToken
+class Exception : public std::exception
 {
-    ADD,
-    SUB,
-    MUL,
-    DIV
+    private:
+        std::string message;
+    public:
+        Exception(std::string message){ this->message = message; }
+        virtual ~Exception() throw() {}
+        virtual const char *what() const throw(){ return this->message.c_str(); }
 };
 
 class RPN
