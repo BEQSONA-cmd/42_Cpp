@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/btvildia/Desktop/42_Cpp/cpp09/ex00",
-      "program": "/home/btvildia/Desktop/42_Cpp/cpp09/ex00/build/Debug/outDebug",
+      "cwd": "/home/btvildia/Desktop/42_Cpp/cpp09/ex02",
+      "program": "/home/btvildia/Desktop/42_Cpp/cpp09/ex02/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
