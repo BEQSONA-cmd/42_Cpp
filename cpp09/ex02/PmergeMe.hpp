@@ -12,6 +12,7 @@
 #include <utility>
 
 void print(std::vector<int> nums);
+void print_pairs(std::vector<int> a);
 int jacobsthal(int n);
 
 #endif

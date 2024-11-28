@@ -5,7 +5,7 @@ int comparison = 0;
 void group_sort_pairs(std::vector<int> &nums, std::vector<int> &a, std::vector<int> &b)
 {
     size_t i = 0;
-    while (i + 1 < nums.size())
+    while (i < nums.size() - 1)
     {
         comparison++;
         if (nums[i] < nums[i + 1])
@@ -69,11 +69,15 @@ void PmergeMe(std::vector<int> &nums)
 
     std::vector<int> a, b;
 
+    print_pairs(nums);
+    std::cout << std::endl;
     group_sort_pairs(nums, a, b);
 
     PmergeMe(a);
 
     Insert_elements(a, b);
+    print_pairs(a);
+    std::cout << std::endl;
 
     nums = a;
 }
@@ -107,7 +111,7 @@ int main(int ac, char **av)
     (void)stragler;
 
     PmergeMe(nums);
-    print(nums);
+    // print(nums);
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
 
