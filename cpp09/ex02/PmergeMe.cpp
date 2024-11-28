@@ -34,7 +34,7 @@ void print_pairs(std::vector<int> a)
     }
 }
 
-int jacobsthal(int n)
+size_t jacobsthal(int n)
 {
     if(n == 0)
         return 0;

@@ -13,6 +13,6 @@
 
 void print(std::vector<int> nums);
 void print_pairs(std::vector<int> a);
-int jacobsthal(int n);
+size_t jacobsthal(int n);
 
 #endif

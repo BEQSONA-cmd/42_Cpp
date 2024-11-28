@@ -29,17 +29,6 @@ void binary_insert(std::vector<int> &a, int value)
     size_t left = 0;
     size_t right = a.size();
 
-    // if (a.empty() || value <= a[0])
-    // {
-    //     a.insert(a.begin(), value);
-    //     return;
-    // }
-    // else if (value >= a[a.size() - 1])
-    // {
-    //     a.push_back(value);
-    //     return;
-    // }
-
     while (left < right)
     {
         comparison++;
@@ -69,15 +58,11 @@ void PmergeMe(std::vector<int> &nums)
 
     std::vector<int> a, b;
 
-    print_pairs(nums);
-    std::cout << std::endl;
     group_sort_pairs(nums, a, b);
 
     PmergeMe(a);
 
     Insert_elements(a, b);
-    print_pairs(a);
-    std::cout << std::endl;
 
     nums = a;
 }
@@ -111,7 +96,7 @@ int main(int ac, char **av)
     (void)stragler;
 
     PmergeMe(nums);
-    // print(nums);
+    print(nums);
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
 
