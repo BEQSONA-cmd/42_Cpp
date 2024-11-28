@@ -11,11 +11,7 @@
 #include <algorithm>
 #include <utility>
 
-void init(std::vector<int> &num_vector, char **av);
 void print(std::vector<int> nums);
 int jacobsthal(int n);
-void print_pairs(std::vector<std::pair<int, int > > &pairs);
-void swap_pairs(std::vector<std::pair<int, int> > &pairs);
-std::vector<std::pair<int, int> > create_pairs(std::vector<int> &nums);
 
 #endif

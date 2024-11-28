@@ -1,67 +1,97 @@
 #include "PmergeMe.hpp"
 
-void merge_and_insert(std::vector<std::pair<int, int> > &left, std::vector<std::pair<int, int> > &right, std::vector<std::pair<int, int> > &nums)
-{
-    std::vector<std::pair<int, int> > result;
-    size_t i = 0;
-    size_t j = 0;
+int comparison = 0;
 
-    while(i < left.size() && j < right.size())
+void group_sort_pairs(std::vector<int> &nums, std::vector<int> &a, std::vector<int> &b)
+{
+    size_t i = 0;
+    while (i + 1 < nums.size())
     {
-        if(left[i].first <= right[j].first)
+        comparison++;
+        if (nums[i] < nums[i + 1])
         {
-            result.push_back(left[i]);
-            i++;
+            a.push_back(nums[i + 1]);
+            b.push_back(nums[i]);
         }
         else
         {
-            result.push_back(right[j]);
-            j++;
+            a.push_back(nums[i]);
+            b.push_back(nums[i + 1]);
         }
+        i += 2;
     }
-    while(i < left.size())
-    {
-        result.push_back(left[i]);
-        i++;
-    }
-    while(j < right.size())
-    {
-        result.push_back(right[j]);
-        j++;
-    }
-    nums = result;
+    if (i < nums.size())
+        a.push_back(nums[i]);
 }
 
-void recursive_sort_larger_element(std::vector<std::pair<int, int> > &nums)
+void binary_insert(std::vector<int> &a, int value)
 {
-    if(nums.size() <= 1)
-        return;
+    size_t left = 0;
+    size_t right = a.size();
+
+    // if (a.empty() || value <= a[0])
+    // {
+    //     a.insert(a.begin(), value);
+    //     return;
+    // }
+    // else if (value >= a[a.size() - 1])
+    // {
+    //     a.push_back(value);
+    //     return;
+    // }
+
+    while (left < right)
+    {
+        comparison++;
+        size_t mid = left + (right - left) / 2;
+        if (a[mid] < value)
+            left = mid + 1;
+        else
+            right = mid;
+    }
+    a.insert(a.begin() + left, value);
+}
+
+void Insert_elements(std::vector<int> &a, const std::vector<int> &b)
+{
     size_t i = 0;
-
-    std::vector<std::pair<int, int> > left;
-    std::vector<std::pair<int, int> > right;
-    size_t mid = nums.size() / 2;
-
-    while(i < mid)
+    while (i < b.size())
     {
-        left.push_back(nums[i]);
+        binary_insert(a, b[i]);
         i++;
     }
-    while(i < nums.size())
-    {
-        right.push_back(nums[i]);
-        i++;
-    }
-    recursive_sort_larger_element(left);
-    recursive_sort_larger_element(right);
-
-    merge_and_insert(left, right, nums);
 }
 
 void PmergeMe(std::vector<int> &nums)
 {
-    if(nums.size() <= 1)
+    if (nums.size() <= 1)
         return;
+
+    std::vector<int> a, b;
+
+    group_sort_pairs(nums, a, b);
+
+    PmergeMe(a);
+
+    Insert_elements(a, b);
+
+    nums = a;
+}
+
+int main(int ac, char **av)
+{
+    int i = 1;
+    int arr[ac - 1];
+
+    while (i < ac)
+    {
+        arr[i - 1] = std::atoi(av[i]);
+        i++;
+    }
+
+    std::vector<int> nums;
+    for (int i = 1; i < ac; i++)
+        nums.push_back(arr[i - 1]);
 
     bool has_stragler = false;
     int stragler = 0;
@@ -71,34 +101,15 @@ void PmergeMe(std::vector<int> &nums)
         stragler = nums[nums.size() - 1];
         nums.pop_back();
     }
+    (void)ac;
+    (void)av;
     (void)has_stragler;
     (void)stragler;
 
-    std::cout << "First: Creating pairs" << std::endl;
-    std::vector<std::pair<int, int> > pairs = create_pairs(nums);
+    PmergeMe(nums);
+    print(nums);
 
-    std::cout << "Second: Swapping pairs" << std::endl;
-    swap_pairs(pairs);
-    
-    std::cout << "Third: Sorting pairs recursively" << std::endl;
-    recursive_sort_larger_element(pairs);
-}
-
-int main(int ac, char **av)
-{
-    // std::cout << jacobsthal(9) << std::endl;
-    if(ac < 2)
-    {
-        std::cerr << "Usage: ./PmergeMe [num1] [num2] [num3] ..." << std::endl;
-        return 1;
-    }
-    std::vector<int> num_vector;
-    init(num_vector, av);
-
-    PmergeMe(num_vector);
-
-    // print(num_vector);
-
+    std::cout << "Number of comparisons: " << comparison << std::endl;
 
     return 0;
 }
