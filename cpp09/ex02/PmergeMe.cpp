@@ -33,12 +33,3 @@ void print_pairs(std::vector<int> a)
         i += 2;
     }
 }
-
-size_t jacobsthal(int n)
-{
-    if(n == 0)
-        return 0;
-    if(n == 1)
-        return 1;
-    return jacobsthal(n - 1) + 2 * jacobsthal(n - 2);
-}

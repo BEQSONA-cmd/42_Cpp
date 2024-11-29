@@ -1,6 +1,6 @@
 NAME =  PmergeMe
 CXX = c++ -std=c++98
-CPPFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CPPFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
