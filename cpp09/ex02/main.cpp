@@ -26,7 +26,7 @@ void group_sort_pairs(std::vector<int> &nums, std::vector<int> &a, std::vector<i
 
 size_t jacobsthal(int n)
 {
-    size_t jacob_arr[] = 
+    size_t jacob_diff[] = 
     {
         2, 2, 6, 10, 22, 42, 86, 170, 342, 682, 1366,
         2730, 5462, 10922, 21846, 43690, 87382, 174762, 349526, 699050,
@@ -41,7 +41,7 @@ size_t jacobsthal(int n)
         1537228672809129216, 3074457345618258432, 6148914691236516864
     };
 
-    return jacob_arr[n];
+    return jacob_diff[n];
 }
 
 
@@ -83,18 +83,20 @@ void jacobsthal_insert(std::vector<int> &main_chain, std::vector<int> &pend)
 
     size_t pend_size = pend.size();
     size_t k = 2;
-
     size_t index = 0;
+
     while (index < pend_size)
     {
         size_t dist = jacobsthal(k);
         if (dist > pend_size - index)
             dist = pend_size - index;
 
-        for (size_t i = 0; i < dist; ++i)
+        size_t i = 0;
+        while (i < dist)
         {
             binary_insert(main_chain, pend[index]);
             index++;
+            i++;
         }
         k++;
     }
@@ -116,12 +118,6 @@ void PmergeMe(std::vector<int> &nums)
     create_main_chain(a, b, main_chain, pend);
 
     jacobsthal_insert(main_chain, pend);
-    // size_t i = 0;
-    // while(i < pend.size())
-    // {
-    //     binary_insert(main_chain, pend[i]);
-    //     i++;
-    // }
 
     nums = main_chain;
 }
