@@ -45,18 +45,6 @@ size_t jacobsthal(int n)
 }
 
 
-std::vector<int> generate_order_with_jacobsthal(size_t size)
-{
-    std::vector<int> order;
-    size_t i = 0;
-    while (i < size)
-    {
-        order.push_back(jacobsthal(i));
-        i++;
-    }
-    return order;
-}
-
 void create_main_chain(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
 {
     main_chain.push_back(b[0]);
@@ -76,17 +64,6 @@ void binary_insert(std::vector<int> &main, int value)
     size_t left = 0;
     size_t right = main.size();
 
-    // if(main.size() == 0 || value <= main[0])
-    // {
-    //     main.insert(main.begin(), value);
-    //     return;
-    // }
-    // else if(value > main[main.size() - 1])
-    // {
-    //     main.push_back(value);
-    //     return;
-    // }
-
     while (left < right)
     {
         comparison++;
@@ -99,6 +76,30 @@ void binary_insert(std::vector<int> &main, int value)
     main.insert(main.begin() + left, value);
 }
 
+void jacobsthal_insert(std::vector<int> &main_chain, std::vector<int> &pend)
+{
+    if (pend.empty())
+        return;
+
+    size_t pend_size = pend.size();
+    size_t k = 2;
+
+    size_t index = 0;
+    while (index < pend_size)
+    {
+        size_t dist = jacobsthal(k);
+        if (dist > pend_size - index)
+            dist = pend_size - index;
+
+        for (size_t i = 0; i < dist; ++i)
+        {
+            binary_insert(main_chain, pend[index]);
+            index++;
+        }
+        k++;
+    }
+}
+
 void PmergeMe(std::vector<int> &nums)
 {
     if (nums.size() <= 1)
@@ -107,26 +108,21 @@ void PmergeMe(std::vector<int> &nums)
     std::vector<int> a, b;
 
     group_sort_pairs(nums, a, b);
-    // std::cout << std::endl;
-    // print_pairs(a);
 
     PmergeMe(a);
-    // std::cout << std::endl;
-    // print_pairs(a);
 
     std::vector<int> main_chain;
     std::vector<int> pend;
     create_main_chain(a, b, main_chain, pend);
 
-    // std::vector<int> order_of_insertion = generate_order_with_jacobsthal(pend.size());
+    jacobsthal_insert(main_chain, pend);
+    // size_t i = 0;
+    // while(i < pend.size())
+    // {
+    //     binary_insert(main_chain, pend[i]);
+    //     i++;
+    // }
 
-    size_t i = 0;
-    while (i < pend.size())
-    {
-        binary_insert(main_chain, pend[i]);
-        i++;
-    }
-    
     nums = main_chain;
 }
 
@@ -159,7 +155,8 @@ int main(int ac, char **av)
     (void)stragler;
 
     PmergeMe(nums);
-    // print(nums);
+    std::cout << "Sorted array: " << std::endl;
+    print(nums);
     std::cout << std::endl;
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
