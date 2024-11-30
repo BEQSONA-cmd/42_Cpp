@@ -48,10 +48,16 @@ size_t jacobsthal(int n)
 void create_main_chain(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
 {
     main_chain.push_back(b[0]);
-    for (size_t i = 1; i < b.size(); i++)
-        pend.push_back(b[i]);
+    size_t i = 1;
+    
+    while (i < b.size())
+    {
+        main_chain.push_back(b[i]);
+        pend.push_back(a[i - 1]);
+        i++;
+    }
 
-    size_t i = 0;
+    i = 0;
     while (i < a.size())
     {
         main_chain.push_back(a[i]);
@@ -118,6 +124,8 @@ void PmergeMe(std::vector<int> &nums)
     create_main_chain(a, b, main_chain, pend);
 
     jacobsthal_insert(main_chain, pend);
+    std::cout << std::endl;
+    print_pairs(main_chain);
 
     nums = main_chain;
 }
@@ -151,8 +159,8 @@ int main(int ac, char **av)
     (void)stragler;
 
     PmergeMe(nums);
-    std::cout << "Sorted array: " << std::endl;
-    print(nums);
+    // std::cout << "Sorted array: " << std::endl;
+    // print(nums);
     std::cout << std::endl;
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
