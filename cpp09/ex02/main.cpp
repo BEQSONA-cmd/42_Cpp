@@ -48,65 +48,81 @@ size_t jacobsthal(int n)
 void create_main_chain(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
 {
     main_chain.push_back(b[0]);
-    size_t i = 1;
-    
-    while (i < b.size())
-    {
-        main_chain.push_back(b[i]);
-        pend.push_back(a[i - 1]);
-        i++;
-    }
-
-    i = 0;
+    size_t i = 0;
     while (i < a.size())
     {
         main_chain.push_back(a[i]);
         i++;
     }
+    i = 1;
+    while (i < b.size())
+    {
+        pend.push_back(b[i]);
+        i++;
+    }
 }
 
-void binary_insert(std::vector<int> &main, int value)
+std::vector<size_t> generate_jacobsthal_sequence(size_t size) {
+    std::vector<size_t> jacobsthal = {0, 1}; // Start with the base values
+    while (jacobsthal.back() < size) {
+        jacobsthal.push_back(2 * jacobsthal[jacobsthal.size() - 1] + jacobsthal[jacobsthal.size() - 2]);
+    }
+    jacobsthal.pop_back(); // Remove the last value that exceeds the size
+    return jacobsthal;
+}
+
+// Generate the order of insertion based on Jacobsthal sequence
+std::vector<size_t> generate_insertion_order(size_t pend_size) {
+    std::vector<size_t> jacobsthal = generate_jacobsthal_sequence(pend_size);
+    std::vector<bool> inserted(pend_size, false); // Track inserted indices
+    std::vector<size_t> order;
+
+    // Add indices from Jacobsthal sequence
+    for (size_t j : jacobsthal) {
+        if (j < pend_size && !inserted[j]) {
+            order.push_back(j);
+            inserted[j] = true;
+        }
+    }
+
+    // Add remaining indices in natural order
+    for (size_t i = 0; i < pend_size; ++i) {
+        if (!inserted[i]) {
+            order.push_back(i);
+        }
+    }
+
+    return order;
+}
+
+int binary_search(std::vector<int> &nums, int value, size_t right_bound) 
 {
     size_t left = 0;
-    size_t right = main.size();
+    size_t right = right_bound;
 
-    while (left < right)
+    while (left < right) 
     {
         comparison++;
         size_t mid = left + (right - left) / 2;
-        if (main[mid] < value)
+
+        if (nums[mid] < value)
             left = mid + 1;
         else
             right = mid;
     }
-    main.insert(main.begin() + left, value);
+    return left;
 }
 
-void jacobsthal_insert(std::vector<int> &main_chain, std::vector<int> &pend)
-{
-    if (pend.empty())
-        return;
+// Updated binary_insert function with Step 5 integration
+void binary_insert(std::vector<int> &main_chain, std::vector<int> &pend) {
+    std::vector<size_t> insertion_order = generate_insertion_order(pend.size());
 
-    size_t pend_size = pend.size();
-    size_t k = 2;
-    size_t index = 0;
-
-    while (index < pend_size)
-    {
-        size_t dist = jacobsthal(k);
-        if (dist > pend_size - index)
-            dist = pend_size - index;
-
-        size_t i = 0;
-        while (i < dist)
-        {
-            binary_insert(main_chain, pend[index]);
-            index++;
-            i++;
-        }
-        k++;
+    for (size_t i : insertion_order) {
+        int idx = binary_search(main_chain, pend[i], main_chain.size());
+        main_chain.insert(main_chain.begin() + idx, pend[i]);
     }
 }
+
 
 void PmergeMe(std::vector<int> &nums)
 {
@@ -119,13 +135,10 @@ void PmergeMe(std::vector<int> &nums)
 
     PmergeMe(a);
 
-    std::vector<int> main_chain;
-    std::vector<int> pend;
-    create_main_chain(a, b, main_chain, pend);
+    std::vector<int> main_chain = a;
+    std::vector<int> pend = b;
 
-    jacobsthal_insert(main_chain, pend);
-    std::cout << std::endl;
-    print_pairs(main_chain);
+    binary_insert(main_chain, pend);
 
     nums = main_chain;
 }
@@ -159,8 +172,8 @@ int main(int ac, char **av)
     (void)stragler;
 
     PmergeMe(nums);
-    // std::cout << "Sorted array: " << std::endl;
-    // print(nums);
+    std::cout << "Sorted array: " << std::endl;
+    print(nums);
     std::cout << std::endl;
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
