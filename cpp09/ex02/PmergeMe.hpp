@@ -14,5 +14,6 @@
 void print(std::vector<int> nums);
 void print_pairs(std::vector<int> a);
 size_t jacobsthal(int n);
+bool has_double(std::vector<int> &nums);
 
 #endif

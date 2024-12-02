@@ -105,6 +105,14 @@ void binary_insert(std::vector<int> &main_chain, std::vector<int> &pend)
 
     std::vector<int> used_nums;
 
+    // for (size_t i = 0; i < pend.size(); i++) 
+    // {
+    //     size_t index = binary_search(main_chain, pend[i], main_chain.size());
+    //     main_chain.insert(main_chain.begin() + index, pend[i]);
+
+    //     used_nums.push_back(pend[i]);
+    // }
+
     for (size_t i = 0; i < order.size(); i++) 
     {
         size_t index = binary_search(main_chain, pend[i], main_chain.size());
@@ -118,7 +126,7 @@ void binary_insert(std::vector<int> &main_chain, std::vector<int> &pend)
     {
         if (std::find(used_nums.begin(), used_nums.end(), pend[i]) == used_nums.end()) 
         {
-            main_chain.push_back(pend[i]);
+            main_chain.insert(main_chain.begin(), pend[i]);
         }
     }
 
@@ -177,6 +185,9 @@ int main(int ac, char **av)
     std::cout << "Sorted array: " << std::endl;
     print(nums);
     std::cout << std::endl;
+
+    if(has_double(nums))
+        std::cout << "Array has duplicates" << std::endl;
 
     std::cout << "Number of comparisons: " << comparison << std::endl;
 
