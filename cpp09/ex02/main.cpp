@@ -43,7 +43,7 @@ void create_main_chain(std::vector<int> &a, std::vector<int> &b, std::vector<int
 
 size_t jacobsthal(size_t num)
 {
-    size_t jacob_diff[] = 
+    size_t jacob[] = 
     {
         0, 1, 1, 3, 5, 11, 21, 43, 85, 171, 341, 683, 1365, 2731, 5461,
         10923, 21845, 43691, 87381, 174763, 349525, 699051, 1398101, 2796203,
@@ -56,7 +56,29 @@ size_t jacobsthal(size_t num)
         48038396025285205, 96076792050570411, 192153584101140821, 384307168202281641, 768614336404563281,
         1537228672809126563, 3074457345618253125, 6148914691236506251
     };
-    return jacob_diff[num];
+    return jacob[num];
+}
+
+std::vector<int> jacob_order(size_t size)
+{
+    std::vector<int> order;
+    size_t index = 3;
+
+    while (true) 
+    {
+        size_t jacob_value = jacobsthal(index);
+        if (jacob_value >= size) break;
+
+        size_t i = jacob_value;
+        while (i > jacobsthal(index - 1)) 
+        {
+            order.push_back(i);
+            i--;
+        }
+        index++;
+    }
+
+    return order;
 }
 
 int binary_search(std::vector<int> &nums, int value, size_t right_bound) 
@@ -79,15 +101,28 @@ int binary_search(std::vector<int> &nums, int value, size_t right_bound)
 
 void binary_insert(std::vector<int> &main_chain, std::vector<int> &pend) 
 {
-    size_t i = 0;
-    while(i < pend.size())
+    std::vector<int> order = jacob_order(pend.size());
+
+    std::vector<int> used_nums;
+
+    for (size_t i = 0; i < order.size(); i++) 
     {
         size_t index = binary_search(main_chain, pend[i], main_chain.size());
         main_chain.insert(main_chain.begin() + index, pend[i]);
-        i++;
-    }
-}
 
+        used_nums.push_back(pend[i]);
+    }
+
+
+    for (size_t i = 0; i < pend.size(); i++) 
+    {
+        if (std::find(used_nums.begin(), used_nums.end(), pend[i]) == used_nums.end()) 
+        {
+            main_chain.push_back(pend[i]);
+        }
+    }
+
+}
 
 void PmergeMe(std::vector<int> &nums)
 {
@@ -105,9 +140,9 @@ void PmergeMe(std::vector<int> &nums)
 
     create_main_chain(a, b, main_chain, pend);
 
-    binary_insert(a, b);
+    binary_insert(main_chain, pend);
 
-    nums = a;
+    nums = main_chain;
 }
 
 int main(int ac, char **av)

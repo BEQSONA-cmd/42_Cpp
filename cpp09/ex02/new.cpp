@@ -1,20 +1,24 @@
-// #include <iostream>
-// #include <vector>
-// #include <algorithm>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
 
 // int main(void)
 // {
-//     std::vector<int> nums = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+//     std::vector<int> nums = {103, 161, 139, 135, 165, 176, 178, 156, 174, 127, 128, 119, 192, 134, 122, 184, 193, 113, 115, 177, 159, 152, 144, 153, 147, 137, 146, 164, 141, 182, 149, 104, 109, 183, 143, 114, 170, 118, 129, 169, 126, 172, 102, 160, 173, 110, 167, 194, 123, 163, 166, 171, 181, 158, 195, 124, 191, 187, 132, 117, 105, 120, 168, 162, 112, 157, 150, 133, 108, 154, 136, 130, 186, 140, 106, 111, 116, 151, 200, 142, 131, 155, 189, 101, 145, 138, 199, 196, 185, 188, 190, 148, 125, 197, 198, 175, 179, 180, 107, 121};
+//     std::vector<int> order;
+//     // first order of indexes are 0 1 2 3 4 5
+//     // jacobsthal is = 0 1 1 3 5 11
+//     // combination should be 3 2 5 4 11 10 9 8 7 6 21 20 19 18 17 43 42 41 40 39 38 37 36 35 34 33 32 31 30 29 28 27 26 25 24 23 22
 
-//     int a = 4;
-//     int b = 5;
+//     order = jacob_order(nums.size());
 
-//     std::vector<int>::iterator low = std::lower_bound(nums.begin(), nums.end(), a);
-//     std::vector<int>::iterator up = std::upper_bound(nums.begin(), nums.end(), b);
-
-//     std::cout << "lower_bound for a: " << *low << std::endl;
-//     std::cout << "upper_bound for b: " << *up << std::endl;
-
+//     // Print the generated order
+//     for (size_t i = 0; i < order.size(); ++i) {
+//         std::cout << order[i] << " ";
+//     }
+//     std::cout << std::endl;
 
 //     return 0;
 // }
+ 
