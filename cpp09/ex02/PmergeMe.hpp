@@ -10,8 +10,12 @@
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <list>
+#include <deque>
 
-void print(std::vector<int> nums);
+void print_nums(std::vector<int> nums);
+void print_nums(std::list<int> nums);
+
 void print_pairs(std::vector<int> a);
 size_t jacobsthal(int n);
 bool has_double(std::vector<int> &nums);

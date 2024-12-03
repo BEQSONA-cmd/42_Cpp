@@ -1,12 +1,23 @@
 #include "PmergeMe.hpp"
 
-void print(std::vector<int> nums)
+void print_nums(std::vector<int> nums)
 {
     size_t i = 0;
     while(i < nums.size())
     {
         std::cout << nums[i] << " ";
         i++;
+    }
+    std::cout << std::endl;
+}
+
+void print_nums(std::list<int> nums)
+{
+    std::list<int>::iterator it = nums.begin();
+    while(it != nums.end())
+    {
+        std::cout << *it << " ";
+        it++;
     }
     std::cout << std::endl;
 }

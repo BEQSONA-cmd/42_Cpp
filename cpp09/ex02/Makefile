@@ -1,5 +1,5 @@
 NAME =  PmergeMe
-CXX = c++ 
+CXX = c++ -std=c++98
 CPPFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 SRC = $(wildcard *.cpp)

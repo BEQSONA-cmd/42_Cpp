@@ -1,120 +1,98 @@
 #include "PmergeMe.hpp"
 
-int comparison = 0;
-
-void group_sort_pairs(std::vector<int> &nums, std::vector<int> &a, std::vector<int> &b)
+template <typename T>
+void group_sort_pairs(T &nums, T &a, T &b)
 {
-    size_t i = 0;
-    while (i + 1 < nums.size()) 
+    typename T::iterator it = nums.begin();
+    while (it != nums.end())
     {
-        comparison++;
-        if (nums[i] < nums[i + 1])
+        typename T::iterator next_it = it;
+        ++next_it;
+        if (next_it == nums.end()) // Handle odd-sized list
+            break;
+
+        if (*it < *next_it)
         {
-            a.push_back(nums[i + 1]);
-            b.push_back(nums[i]);
+            a.push_back(*next_it);
+            b.push_back(*it);
         }
         else
         {
-            a.push_back(nums[i]);
-            b.push_back(nums[i + 1]);
+            a.push_back(*it);
+            b.push_back(*next_it);
         }
-        i += 2;
-    }
 
-    // Debugging output
-    std::cout << "a: ";
-    for (auto v : a) std::cout << v << " ";
-    std::cout << std::endl;
-    std::cout << "b: ";
-    for (auto v : b) std::cout << v << " ";
-    std::cout << std::endl;
+        ++it;
+        ++it; // Move iterator forward by 2
+    }
 }
 
-void create_main_chain(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
+template <typename T>
+size_t binary_search(T &nums, int value, size_t right_bound)
 {
-    if (!b.empty())
-        main_chain.push_back(b[0]);
+    typename T::iterator left = nums.begin();
+    typename T::iterator right = nums.begin();
 
-    size_t i = 0;
-    while (i < a.size()) 
+    for (size_t i = 0; i < right_bound; ++i)
+        ++right;
+
+    while (left != right)
     {
-        main_chain.push_back(a[i]);
-        i++;
-    }       
+        typename T::iterator mid = left;
+        for (size_t i = 0; i < (size_t)std::distance(left, right) / 2; ++i)
+            ++mid;
 
-    i = 1;
-    while (i < b.size()) 
-    {
-        pend.push_back(b[i]);
-        i++;
-    }
-
-    // Debugging output
-    std::cout << "main_chain: ";
-    for (auto v : main_chain) std::cout << v << " ";
-    std::cout << std::endl;
-    std::cout << "pend: ";
-    for (auto v : pend) std::cout << v << " ";
-    std::cout << std::endl;
-    
-}
-
-int binary_search(std::vector<int> &nums, int value, size_t right_bound) 
-{
-    size_t left = 0;
-    size_t right = right_bound;
-
-    while (left < right) 
-    {
-        comparison++;
-        size_t mid = left + (right - left) / 2;
-
-        if (nums[mid] < value)
-            left = mid + 1;
+        if (*mid < value)
+            left = ++mid;
         else
             right = mid;
     }
-    return left;
+
+    return std::distance(nums.begin(), left);
 }
 
 
-void binary_insert(std::vector<int> &main_chain, std::vector<int> &pend)
+template <typename T>
+void binary_insert(T &main_chain, T &pend)
 {
-    for (size_t i = 0; i < pend.size(); i++)
+    for (typename T::iterator it = pend.begin(); it != pend.end(); ++it)
     {
-        size_t index = binary_search(main_chain, pend[i], main_chain.size());
-        main_chain.insert(main_chain.begin() + index, pend[i]);
+        size_t index = binary_search(main_chain, *it, main_chain.size());
+        typename T::iterator insert_it = main_chain.begin();
+        for (size_t i = 0; i < index; ++i)
+            ++insert_it;
+        main_chain.insert(insert_it, *it);
     }
 }
-void PmergeMe(std::vector<int> &nums)
+
+
+template <typename T>
+void PmergeMe(T &nums)
 {
     if (nums.size() <= 1)
         return;
+
     bool has_stragler = false;
     int stragler = 0;
-    if(nums.size() % 2 != 0)
+
+    if (nums.size() % 2 != 0)
     {
         has_stragler = true;
-        stragler = nums[nums.size() - 1];
-        nums.pop_back();
+        typename T::iterator it = nums.end();
+        --it; // Move to the last element
+        stragler = *it; // Store the last element
+        nums.pop_back(); // Remove the last element
     }
 
-    std::vector<int> a, b;
-
+    T a, b;
     group_sort_pairs(nums, a, b);
-
     PmergeMe(a);
 
-    std::vector<int> main_chain;
-    std::vector<int> pend;
+    if (has_stragler)
+        b.push_back(stragler);
 
-    create_main_chain(a, b, main_chain, pend);
-
-    if(has_stragler)
-        pend.push_back(stragler);
-    binary_insert(main_chain, pend);
-
-    nums = main_chain;
+    binary_insert(a, b);
+    nums = a;
 }
 
 int main(int ac, char **av)
@@ -129,18 +107,20 @@ int main(int ac, char **av)
     }
 
     std::vector<int> nums;
+    std::list<int> list;
+
     for (int i = 1; i < ac; i++)
         nums.push_back(arr[i - 1]);
+        
+    for (int i = 1; i < ac; i++)
+        list.push_back(arr[i - 1]);
 
     PmergeMe(nums);
+    PmergeMe(list);
     std::cout << "Sorted array: " << std::endl;
-    print(nums);
+    print_nums(nums);
+    print_nums(list);
     std::cout << std::endl;
-
-    if(has_double(nums))
-        std::cout << "Array has duplicates" << std::endl;
-
-    std::cout << "Number of comparisons: " << comparison << std::endl;
 
     return 0;
 }
