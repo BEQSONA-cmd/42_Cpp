@@ -8,7 +8,7 @@ void group_sort_pairs(T &nums, T &a, T &b)
     {
         typename T::iterator next_it = it;
         ++next_it;
-        if (next_it == nums.end()) // Handle odd-sized list
+        if (next_it == nums.end())
             break;
 
         if (*it < *next_it)
@@ -23,7 +23,7 @@ void group_sort_pairs(T &nums, T &a, T &b)
         }
 
         ++it;
-        ++it; // Move iterator forward by 2
+        ++it;
     }
 }
 
@@ -65,7 +65,6 @@ void binary_insert(T &main_chain, T &pend)
     }
 }
 
-
 template <typename T>
 void PmergeMe(T &nums)
 {
@@ -79,9 +78,9 @@ void PmergeMe(T &nums)
     {
         has_stragler = true;
         typename T::iterator it = nums.end();
-        --it; // Move to the last element
-        stragler = *it; // Store the last element
-        nums.pop_back(); // Remove the last element
+        --it;
+        stragler = *it;
+        nums.pop_back();
     }
 
     T a, b;
