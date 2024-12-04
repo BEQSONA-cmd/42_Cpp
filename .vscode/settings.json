@@ -110,6 +110,7 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "typeinfo": "cpp",
-    "*.tpp": "cpp"
+    "*.tpp": "cpp",
+    "set": "cpp"
   }
 }
