@@ -59,22 +59,22 @@ void binary_insert(T &main_chain, T &pend)
 {
     typename T::iterator it = pend.begin();
 
-    if(is_jacobsthal(pend.size()))
-    {
-        T order = jacob_order<T>(pend.size());
-        typename T::iterator order_it = order.begin();
+    // if(is_jacobsthal(pend.size()))
+    // {
+    //     T order = jacob_order<T>(pend.size());
+    //     typename T::iterator order_it = order.begin();
 
-        while (order_it != order.end())
-        {
-            size_t index = binary_search(main_chain, *it, main_chain.size());
-            typename T::iterator insert_it = main_chain.begin();
-            std::advance(insert_it, index);
-            main_chain.insert(insert_it, *it);
-            ++it;
-            ++order_it;
-        }
-    }
-    else
+    //     while (order_it != order.end())
+    //     {
+    //         size_t index = binary_search(main_chain, *it, main_chain.size());
+    //         typename T::iterator insert_it = main_chain.begin();
+    //         std::advance(insert_it, index);
+    //         main_chain.insert(insert_it, *it);
+    //         ++it;
+    //         ++order_it;
+    //     }
+    // }
+    // else
     {
         while (it != pend.end())
         {
@@ -89,14 +89,12 @@ void binary_insert(T &main_chain, T &pend)
 
 void create_main_and_pend(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
 {
-    // most of the b goes to pend and a goes to main_chain
-    // first element of b goes to main_chain cuz b1 is smaller than a1
-
     if(!b.empty())
     {
         main_chain.push_back(b[0]);
         b.erase(b.begin());
     }
+
 
     typename std::vector<int>::iterator a_it = a.begin();
     typename std::vector<int>::iterator b_it = b.begin();
@@ -132,13 +130,14 @@ void PmergeMe(T &nums)
         nums.pop_back();
     }
 
-    T a = T();
-    T b = T();
+    T a = T(); T b = T();
     group_sort_pairs(nums, a, b);
+    std::map<int, int> a_order = get_map(a);
+    
     PmergeMe(a);
 
-    T main_chain = T();
-    T pend = T();
+    T main_chain = T(); T pend = T();
+    sort_b_on_order(a, b, a_order);
     create_main_and_pend(a, b, main_chain, pend);
 
     if(has_stragler)

@@ -30,17 +30,6 @@ size_t jacobsthal(size_t num)
     return jacob[num];
 }
 
-    // while (it != pend.end())
-    // {
-    //     size_t index = binary_search(main_chain, *it, main_chain.size());
-
-    //     typename T::iterator insert_it = main_chain.begin();
-        
-    //     std::advance(insert_it, index);
-    //     main_chain.insert(insert_it, *it);
-    //     ++it;
-    // }
-
 template <typename T>
 T jacob_order(size_t size)
 {
@@ -64,3 +53,33 @@ T jacob_order(size_t size)
     return order;
 }
 
+template <typename T>
+std::map<int, int> get_map(T &a)
+{
+    std::map<int, int> a_order;
+    int i = 0;
+    typename T::iterator a_it = a.begin();
+
+    while (a_it != a.end())
+    {
+        a_order[*a_it] = i;
+        ++a_it;
+        ++i;
+    }
+
+    return a_order;
+}
+
+template <typename T>
+void sort_b_on_order(T &a, T &b, std::map<int, int> &a_order)
+{
+
+    std::vector<int> b_sorted(b.size());
+    size_t i = 0;
+    while (i < b.size())
+    {
+        b_sorted[a_order[a[i]]] = b[i];
+        i++;
+    }
+    b = b_sorted;
+}

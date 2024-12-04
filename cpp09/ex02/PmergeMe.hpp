@@ -13,9 +13,7 @@
 #include <vector>
 #include <list>
 #include <deque>
-#include <set>
 #include <map>
-#include <stack>
 #include "PmergeMe.tpp"
 
 bool is_jacobsthal(size_t num)
