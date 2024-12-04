@@ -136,8 +136,9 @@ void PmergeMe(T &nums)
     
     PmergeMe(a);
 
-    T main_chain = T(); T pend = T();
     sort_b_on_order(a, b, a_order);
+    
+    T main_chain = T(); T pend = T();
     create_main_and_pend(a, b, main_chain, pend);
 
     if(has_stragler)
