@@ -1,6 +1,29 @@
 #include "PmergeMe.hpp"
 
 template <typename T>
+T fill_nums(int ac, char **av)
+{
+    int i = 1;
+    int arr[ac - 1];
+    T nums;
+
+    while (i < ac)
+    {
+        arr[i - 1] = std::atoi(av[i]);
+        i++;
+    }
+    
+    i = 1;
+    while (i < ac)
+    {
+        nums.push_back(arr[i - 1]);
+        i++;
+    }
+
+    return nums;
+}
+
+template <typename T>
 void print_nums(T nums)
 {
     typename T::iterator it = nums.begin();
