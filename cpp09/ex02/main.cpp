@@ -21,26 +21,28 @@ void group_sort_pairs(T &nums, T &a, T &b)
             a.push_back(*it);
             b.push_back(*next_it);
         }
-
-        ++it;
-        ++it;
+        ++it; ++it;
     }
 }
 
 template <typename T>
-size_t binary_search(T &nums, int value, size_t right_bound)
+size_t binary_search(T &nums, typename T::value_type value, size_t right_bound)
 {
     typename T::iterator left = nums.begin();
     typename T::iterator right = nums.begin();
 
-    for (size_t i = 0; i < right_bound; ++i)
-        ++right;
+    // size_t i = 0;
+    // while (i < right_bound)
+    // {
+    //     ++right;
+    //     ++i;
+    // }
+    std::advance(right, right_bound);
 
     while (left != right)
     {
         typename T::iterator mid = left;
-        for (size_t i = 0; i < (size_t)std::distance(left, right) / 2; ++i)
-            ++mid;
+        std::advance(mid, std::distance(left, right) / 2);
 
         if (*mid < value)
             left = ++mid;
@@ -55,13 +57,17 @@ size_t binary_search(T &nums, int value, size_t right_bound)
 template <typename T>
 void binary_insert(T &main_chain, T &pend)
 {
-    for (typename T::iterator it = pend.begin(); it != pend.end(); ++it)
+    typename T::iterator it = pend.begin();
+
+    while (it != pend.end())
     {
         size_t index = binary_search(main_chain, *it, main_chain.size());
+
         typename T::iterator insert_it = main_chain.begin();
-        for (size_t i = 0; i < index; ++i)
-            ++insert_it;
+        
+        std::advance(insert_it, index);
         main_chain.insert(insert_it, *it);
+        ++it;
     }
 }
 
@@ -72,7 +78,7 @@ void PmergeMe(T &nums)
         return;
 
     bool has_stragler = false;
-    int stragler = 0;
+    typename T::value_type stragler;
 
     if (nums.size() % 2 != 0)
     {
@@ -107,18 +113,24 @@ int main(int ac, char **av)
 
     std::vector<int> nums;
     std::list<int> list;
+    std::deque<int> deque;
 
     for (int i = 1; i < ac; i++)
         nums.push_back(arr[i - 1]);
         
     for (int i = 1; i < ac; i++)
         list.push_back(arr[i - 1]);
+    
+    for (int i = 1; i < ac; i++)
+        deque.push_back(arr[i - 1]);
 
     PmergeMe(nums);
     PmergeMe(list);
+    PmergeMe(deque);
     std::cout << "Sorted array: " << std::endl;
     print_nums(nums);
     print_nums(list);
+    print_nums(deque);
     std::cout << std::endl;
 
     return 0;

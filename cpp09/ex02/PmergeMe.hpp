@@ -7,17 +7,21 @@
 #define CYAN "\033[1;36m"
 #define RESET "\033[0m"
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <iterator>
 #include <utility>
+#include <vector>
 #include <list>
 #include <deque>
+#include <set>
+#include <map>
+#include <stack>
 
-void print_nums(std::vector<int> nums);
-void print_nums(std::list<int> nums);
 
 void print_pairs(std::vector<int> a);
 size_t jacobsthal(int n);
 bool has_double(std::vector<int> &nums);
+
+#include "PmergeMe.tpp"
 
 #endif
