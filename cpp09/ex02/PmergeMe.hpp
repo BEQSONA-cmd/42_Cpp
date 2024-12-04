@@ -16,12 +16,19 @@
 #include <set>
 #include <map>
 #include <stack>
-
-
-void print_pairs(std::vector<int> a);
-size_t jacobsthal(int n);
-bool has_double(std::vector<int> &nums);
-
 #include "PmergeMe.tpp"
+
+bool is_jacobsthal(size_t num)
+{
+    size_t i = 3;
+    while (true) 
+    {
+        size_t jacob_value = jacobsthal(i);
+        if (jacob_value == num) return true;
+        if (jacob_value > num) return false;
+        i++;
+    }
+}
+
 
 #endif

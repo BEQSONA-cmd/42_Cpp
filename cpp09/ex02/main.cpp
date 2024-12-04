@@ -4,6 +4,7 @@ template <typename T>
 void group_sort_pairs(T &nums, T &a, T &b)
 {
     typename T::iterator it = nums.begin();
+
     while (it != nums.end())
     {
         typename T::iterator next_it = it;
@@ -53,22 +54,64 @@ size_t binary_search(T &nums, typename T::value_type value, size_t right_bound)
     return std::distance(nums.begin(), left);
 }
 
-
 template <typename T>
 void binary_insert(T &main_chain, T &pend)
 {
     typename T::iterator it = pend.begin();
 
-    while (it != pend.end())
+    if(is_jacobsthal(pend.size()))
     {
-        size_t index = binary_search(main_chain, *it, main_chain.size());
+        T order = jacob_order<T>(pend.size());
+        typename T::iterator order_it = order.begin();
 
-        typename T::iterator insert_it = main_chain.begin();
-        
-        std::advance(insert_it, index);
-        main_chain.insert(insert_it, *it);
-        ++it;
+        while (order_it != order.end())
+        {
+            size_t index = binary_search(main_chain, *it, main_chain.size());
+            typename T::iterator insert_it = main_chain.begin();
+            std::advance(insert_it, index);
+            main_chain.insert(insert_it, *it);
+            ++it;
+            ++order_it;
+        }
     }
+    else
+    {
+        while (it != pend.end())
+        {
+            size_t index = binary_search(main_chain, *it, main_chain.size());
+            typename T::iterator insert_it = main_chain.begin();
+            std::advance(insert_it, index);
+            main_chain.insert(insert_it, *it);
+            ++it;
+        }
+    }
+}
+
+void create_main_and_pend(std::vector<int> &a, std::vector<int> &b, std::vector<int> &main_chain, std::vector<int> &pend)
+{
+    // most of the b goes to pend and a goes to main_chain
+    // first element of b goes to main_chain cuz b1 is smaller than a1
+
+    if(!b.empty())
+    {
+        main_chain.push_back(b[0]);
+        b.erase(b.begin());
+    }
+
+    typename std::vector<int>::iterator a_it = a.begin();
+    typename std::vector<int>::iterator b_it = b.begin();
+
+    while (a_it != a.end())
+    {
+        main_chain.push_back(*a_it);
+        ++a_it;
+    }
+    while(b_it != b.end())
+    {
+        pend.push_back(*b_it);
+        ++b_it;
+    }
+
 }
 
 template <typename T>
@@ -89,15 +132,20 @@ void PmergeMe(T &nums)
         nums.pop_back();
     }
 
-    T a, b;
+    T a = T();
+    T b = T();
     group_sort_pairs(nums, a, b);
     PmergeMe(a);
 
-    if (has_stragler)
-        b.push_back(stragler);
+    T main_chain = T();
+    T pend = T();
+    create_main_and_pend(a, b, main_chain, pend);
 
-    binary_insert(a, b);
-    nums = a;
+    if(has_stragler)
+        pend.push_back(stragler);
+
+    binary_insert(main_chain, pend);
+    nums = main_chain;
 }
 
 int main(int ac, char **av)
@@ -125,12 +173,12 @@ int main(int ac, char **av)
         deque.push_back(arr[i - 1]);
 
     PmergeMe(nums);
-    PmergeMe(list);
-    PmergeMe(deque);
-    std::cout << "Sorted array: " << std::endl;
+    // PmergeMe(list);
+    // PmergeMe(deque);
+    std::cout << "Sorted: " << std::endl;
     print_nums(nums);
-    print_nums(list);
-    print_nums(deque);
+    // print_nums(list);
+    // print_nums(deque);
     std::cout << std::endl;
 
     return 0;
