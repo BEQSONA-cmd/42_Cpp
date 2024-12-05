@@ -115,22 +115,24 @@ void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
 {
     std::vector<value> b_sorted(b.size());
 
-    typename T::const_iterator a_it = a.begin();
-    typename T::const_iterator b_it = b.begin();
-    typename std::vector<value>::iterator it = b_sorted.begin();
+    size_t i = 0;
+    if(b.size() > a_order.size())
+    {
+        std::cout << "b size is more" << std::endl;
+        std::cout << "b size: " << b.size() << std::endl;
+        std::cout << "a_order size: " << a_order.size() << std::endl;
+    }
+    else if(b.size() < a_order.size())
+        std::cout << "a size is more" << std::endl;
+    else
+        std::cout << "equal" << std::endl;
 
-    while (a_it != a.end() && b_it != b.end())
+    while (i < b.size())
     {
-        b_sorted[a_order[*a_it]] = *b_it;
-        ++a_it, ++b_it;
+        b_sorted[a_order[a[i]]] = b[i];
+        i++;
     }
-    
-    typename T::iterator b_target = b.begin();
-    while (b_target != b.end() && it != b_sorted.end())
-    {
-        *b_target = *it;
-        ++b_target, ++it;
-    }
+    b = b_sorted;
 }
 
 template <typename T>
