@@ -15,26 +15,32 @@
 #include <deque>
 #include <map>
 
+extern size_t comparisons;
+
 template <typename T>
 class Sorter
 {
-    public:
-        typedef typename T::value_type value;
-        
-        static void PmergeMe(T &nums);
-        static void sort_b_on_order(T &a, T &b, std::map<int, value> &a_order);
-        static size_t binary_search(T &nums, value value, size_t right_bound);
-        static void binary_insert(T &main_chain, T &pend);
-        static std::map<int, value> get_map(T &a);
     private:
         Sorter() {};
         ~Sorter() {};
+    public:
+        typedef typename T::value_type value;
+        
+        static void group_sort_pairs(T &nums, T &a, T &b);
+
+        static std::map<int, value> get_map(T &a);
+
+        static void PmergeMe(T &nums);
+
+        static void sort_b_on_order(T &a, T &b, std::map<int, value> &a_order);
+
+        static void create_main_and_pend(T &a, T &b, T &main_chain, T &pend);
+        
+        static void binary_insert(T &main_chain, T &pend);
 };
 
 
 #include "Utils.tpp"
-
 #include "PmergeMe.tpp"
-
 
 #endif

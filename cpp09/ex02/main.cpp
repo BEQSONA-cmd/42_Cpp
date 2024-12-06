@@ -26,17 +26,24 @@ void print_diff(std::vector<int> nums, std::vector<int> nums_2)
 int main(int ac, char **av)
 {
 
-    std::vector<int> nums = fill_nums<std::vector<int> >(ac, av);
-    std::vector<int> nums_2 = fill_nums<std::vector<int> >(ac, av);
+    std::vector<int> vector = fill_nums<std::vector<int> >(ac, av);
+    std::list<int> list = fill_nums<std::list<int> >(ac, av);
+    std::deque<int> deque = fill_nums<std::deque<int> >(ac, av);
 
-    Sorter<std::vector<int> >::PmergeMe(nums);
+    Sorter<std::vector<int> >::PmergeMe(vector);
+    // Sorter<std::list<int> >::PmergeMe(list);
+    // Sorter<std::deque<int> >::PmergeMe(deque);
 
     std::cout << "Sorted: " << std::endl;
-    print_nums(nums);
+    print_nums(vector);
     std::cout << std::endl;
+    // print_nums(list);
+    // std::cout << std::endl;
+    // print_nums(deque);
+    // std::cout << std::endl;
 
-    std::cout << "numbers missing: " << std::endl;
-    print_diff(nums_2, nums);
+    std::cout << "Comparisons: " << comparisons << std::endl;
+
 
     return 0;
 }

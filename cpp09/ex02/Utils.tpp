@@ -53,10 +53,9 @@ size_t jacobsthal(size_t num)
     return jacob[num];
 }
 
-template <typename T>
-T jacob_order(size_t size)
+std::vector<int> jacob_order(size_t size)
 {
-    T order;
+    std::vector<int> order;
     size_t index = 3;
     order.push_back(0);
     order.push_back(1);
@@ -78,53 +77,53 @@ T jacob_order(size_t size)
     return order;
 }
 
+// size_t binary_serch(std::vector<int> nums, int value, size_t right_bound)
+// {
+//     size_t left = 0;
+//     size_t right = right_bound;
+
+//     while (left < right)
+//     {
+//         size_t mid = left + (right - left) / 2;
+
+//         if (nums[mid] < value)
+//             left = mid + 1;
+//         else
+//             right = mid;
+//     }
+
+//     return left;
+// }
+
 template <typename T>
-void group_sort_pairs(T &nums, T &a, T &b)
+size_t binary_search(T &nums, typename T::value_type value, size_t right_bound)
 {
-    typename T::iterator it = nums.begin();
+    typename T::iterator left = nums.begin();
+    typename T::iterator right = nums.begin();
 
-    while (it != nums.end())
+    // size_t i = 0;
+    // while (i < right_bound)
+    // {
+    //     ++right;
+    //     ++i;
+    // }
+
+    size_t pos = 0;
+    std::advance(right, right_bound);
+
+    while (left != right)
     {
-        typename T::iterator next_it = it;
-        ++next_it;
-        if (next_it == nums.end())
-            break;
+        comparisons++;
+        typename T::iterator mid = left;
+        pos = std::distance(left, right) / 2;
+        std::advance(mid, pos);
 
-        if (*it < *next_it)
-        {
-            a.push_back(*next_it);
-            b.push_back(*it);
-        }
+        if (*mid < value)
+            left = ++mid;
         else
-        {
-            a.push_back(*it);
-            b.push_back(*next_it);
-        }
-        ++it; ++it;
+            right = mid;
     }
-}
-
-template <typename T>
-void create_main_and_pend(T &a, T &b, T &main_chain, T &pend)
-{
-    typename T::iterator a_it = a.begin();
-    typename T::iterator b_it = b.begin();
-
-    if(!b.empty())
-    {
-        main_chain.push_back(*b_it);
-        b.erase(b_it);
-        b_it = b.begin();
-    }
-
-    while (a_it != a.end())
-    {
-        main_chain.push_back(*a_it);
-        ++a_it;
-    }
-    while(b_it != b.end())
-    {
-        pend.push_back(*b_it);
-        ++b_it;
-    }
+    
+    pos = std::distance(nums.begin(), left);
+    return pos;
 }

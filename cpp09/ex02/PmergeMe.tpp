@@ -1,16 +1,57 @@
 #include "PmergeMe.hpp"
+size_t comparisons = 0;
 
-bool is_jacobsthal(size_t num)
+template <typename T>
+void Sorter<T>::group_sort_pairs(T &nums, T &a, T &b)
 {
-    size_t i = 3;
-    while (true) 
+    typename T::iterator it = nums.begin();
+    while (it != nums.end())
     {
-        size_t jacob_value = jacobsthal(i);
-        if (jacob_value == num) return true;
-        if (jacob_value > num) return false;
-        i++;
+        comparisons++;
+        typename T::iterator next_it = it;
+        ++next_it;
+        if (next_it == nums.end())
+            break;
+
+        if (*it < *next_it)
+        {
+            a.push_back(*next_it);
+            b.push_back(*it);
+        }
+        else
+        {
+            a.push_back(*it);
+            b.push_back(*next_it);
+        }
+        ++it; ++it;
     }
 }
+
+template <typename T>
+void Sorter<T>::create_main_and_pend(T &a, T &b, T &main_chain, T &pend)
+{
+    typename T::iterator a_it = a.begin();
+    typename T::iterator b_it = b.begin();
+
+    if(!b.empty())
+    {
+        main_chain.push_back(*b_it);
+        b.erase(b_it);
+        b_it = b.begin();
+    }
+
+    while (a_it != a.end())
+    {
+        main_chain.push_back(*a_it);
+        ++a_it;
+    }
+    while(b_it != b.end())
+    {
+        pend.push_back(*b_it);
+        ++b_it;
+    }
+}
+
 
 template <typename T>
 std::map<int, typename T::value_type> Sorter<T>::get_map(T &a)
@@ -30,64 +71,31 @@ std::map<int, typename T::value_type> Sorter<T>::get_map(T &a)
 }
 
 template <typename T>
-size_t Sorter<T>::binary_search(T &nums, value value, size_t right_bound)
-{
-    typename T::iterator left = nums.begin();
-    typename T::iterator right = nums.begin();
-
-    // size_t i = 0;
-    // while (i < right_bound)
-    // {
-    //     ++right;
-    //     ++i;
-    // }
-    std::advance(right, right_bound);
-
-    while (left != right)
-    {
-        typename T::iterator mid = left;
-        std::advance(mid, std::distance(left, right) / 2);
-
-        if (*mid < value)
-            left = ++mid;
-        else
-            right = mid;
-    }
-
-    return std::distance(nums.begin(), left);
-}
-
-template <typename T>
 void Sorter<T>::binary_insert(T &main_chain, T &pend)
 {
-    typename T::iterator it = pend.begin();
+    std::vector<int> order = jacob_order(pend.size());
+    // jacob_order returns the specially chosen order: 3, 2, 5, 4, ...
 
-    T order = jacob_order<T>(pend.size());
-    // jacob order is : 3 2 5 4 11 10 9 8 7 6 21 20 19 ...
-
-    T sorted_pend(pend.size());
-    typename T::iterator pend_it = pend.begin();
-    typename T::iterator order_it = order.begin();
-    while (pend_it != pend.end())
+    size_t i = 0;
+    while (i < pend.size())
     {
-        if(order_it != order.end())
-        {
-            sorted_pend[*order_it] = *pend_it;
-            ++order_it;
-        }
+        size_t pend_index;
+        if(i < order.size())
+            pend_index = order[i];
         else
-            sorted_pend[std::distance(pend.begin(), pend_it)] = *pend_it;
-        ++pend_it;
-    }
-    pend = sorted_pend;
+            pend_index = i;
+        if (pend_index >= pend.size()) continue;
 
-    while (it != pend.end())
-    {
+        typename T::iterator it = pend.begin();
+        std::advance(it, pend_index);
+
         size_t index = binary_search(main_chain, *it, main_chain.size());
+
         typename T::iterator insert_it = main_chain.begin();
         std::advance(insert_it, index);
+
         main_chain.insert(insert_it, *it);
-        ++it;
+        i++;
     }
 }
 
@@ -100,17 +108,6 @@ void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
     typename T::const_iterator a_it = a.begin();
     typename T::const_iterator b_it = b.begin();
     typename std::vector<value>::iterator it = b_sorted.begin();
-
-    // if(b.size() > a_order.size())
-    // {
-    //     std::cout << "b size is more" << std::endl;
-    //     std::cout << "b size: " << b.size() << std::endl;
-    //     std::cout << "a_order size: " << a_order.size() << std::endl;
-    // }
-    // else if(b.size() < a_order.size())
-    //     std::cout << "a size is more" << std::endl;
-    // else
-    //     std::cout << "equal" << std::endl;
 
     while (a_it != a.end() && b_it != b.end())
     {
