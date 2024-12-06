@@ -23,6 +23,21 @@ void print_diff(std::vector<int> nums, std::vector<int> nums_2)
     }
 }
 
+template <typename T>
+void is_sorted(T &nums)
+{
+    typename T::iterator it = nums.begin();
+    typename T::iterator next_it = it;
+    ++next_it;
+    while (next_it != nums.end())
+    {
+        if (*it > *next_it)
+            std::cout << "Not sorted: " << *it << " > " << *next_it << std::endl;
+        ++it;
+        ++next_it;
+    }
+}
+
 int main(int ac, char **av)
 {
 
@@ -31,19 +46,15 @@ int main(int ac, char **av)
     std::deque<int> deque = fill_nums<std::deque<int> >(ac, av);
 
     Sorter<std::vector<int> >::PmergeMe(vector);
-    // Sorter<std::list<int> >::PmergeMe(list);
-    // Sorter<std::deque<int> >::PmergeMe(deque);
+    Sorter<std::list<int> >::PmergeMe(list);
+    Sorter<std::deque<int> >::PmergeMe(deque);
 
     std::cout << "Sorted: " << std::endl;
     print_nums(vector);
     std::cout << std::endl;
-    // print_nums(list);
-    // std::cout << std::endl;
-    // print_nums(deque);
-    // std::cout << std::endl;
-
-    std::cout << "Comparisons: " << comparisons << std::endl;
-
-
+    print_nums(list);
+    std::cout << std::endl;
+    print_nums(deque);
+    std::cout << std::endl;
     return 0;
 }

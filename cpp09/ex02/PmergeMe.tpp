@@ -103,24 +103,18 @@ void Sorter<T>::binary_insert(T &main_chain, T &pend)
 template <typename T>
 void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
 {
-    std::vector<value> b_sorted(b.size());
-
+    T b_sorted;
     typename T::const_iterator a_it = a.begin();
-    typename T::const_iterator b_it = b.begin();
-    typename std::vector<value>::iterator it = b_sorted.begin();
 
-    while (a_it != a.end() && b_it != b.end())
+    while (a_it != a.end())
     {
-        b_sorted[a_order[*a_it]] = *b_it;
-        ++a_it, ++b_it;
+        typename T::iterator b_it = b.begin();
+        std::advance(b_it, a_order[*a_it]);
+        b_sorted.push_back(*b_it);
+        ++a_it;
     }
-    
-    typename T::iterator b_target = b.begin();
-    while (b_target != b.end() && it != b_sorted.end())
-    {
-        *b_target = *it;
-        ++b_target, ++it;
-    }
+
+    b = b_sorted;
 }
 
 template <typename T>
