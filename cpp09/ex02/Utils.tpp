@@ -58,6 +58,8 @@ T jacob_order(size_t size)
 {
     T order;
     size_t index = 3;
+    order.push_back(0);
+    order.push_back(1);
 
     while (true) 
     {

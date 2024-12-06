@@ -1,5 +1,17 @@
 #include "PmergeMe.hpp"
 
+bool is_jacobsthal(size_t num)
+{
+    size_t i = 3;
+    while (true) 
+    {
+        size_t jacob_value = jacobsthal(i);
+        if (jacob_value == num) return true;
+        if (jacob_value > num) return false;
+        i++;
+    }
+}
+
 template <typename T>
 std::map<int, typename T::value_type> Sorter<T>::get_map(T &a)
 {
@@ -46,69 +58,41 @@ size_t Sorter<T>::binary_search(T &nums, value value, size_t right_bound)
 }
 
 template <typename T>
+void sort_pend_on_order(T &order, T &pend)
+{
+    T sorted_pend(pend.size());
+    size_t i = 0;
+    while (i < pend.size() - 1)
+    {
+        sorted_pend[order[i]] = pend[i];
+        i++;
+    }
+    sorted_pend[i] = pend[i];
+    pend = sorted_pend;
+}
+
+template <typename T>
 void Sorter<T>::binary_insert(T &main_chain, T &pend)
 {
     typename T::iterator it = pend.begin();
 
-    // if(is_jacobsthal(pend.size()))
-    // {
-    //     T order = jacob_order<T>(pend.size());
-    //     typename T::iterator order_it = order.begin();
-
-    //     while (order_it != order.end())
-    //     {
-    //         size_t index = binary_search(main_chain, *it, main_chain.size());
-    //         typename T::iterator insert_it = main_chain.begin();
-    //         std::advance(insert_it, index);
-    //         main_chain.insert(insert_it, *it);
-    //         ++it;
-    //         ++order_it;
-    //     }
-    // }
-    // else
+    if(is_jacobsthal(pend.size()))
     {
-        while (it != pend.end())
-        {
-            size_t index = binary_search(main_chain, *it, main_chain.size());
-            typename T::iterator insert_it = main_chain.begin();
-            std::advance(insert_it, index);
-            main_chain.insert(insert_it, *it);
-            ++it;
-        }
+        T order = jacob_order<T>(pend.size());
+        // jacob order is : 3 2 5 4 11 10 9 8 7 6 21 20 19 ...
+        // sort_pend_on_order(order, pend);
+
+        
+    }
+    while (it != pend.end())
+    {
+        size_t index = binary_search(main_chain, *it, main_chain.size());
+        typename T::iterator insert_it = main_chain.begin();
+        std::advance(insert_it, index);
+        main_chain.insert(insert_it, *it);
+        ++it;
     }
 }
-
-// template <typename T>
-// std::map<int, int> get_map(T &a)
-// {
-//     std::map<int, int> a_order;
-//     int i = 0;
-//     typename T::iterator a_it = a.begin();
-
-//     while (a_it != a.end())
-//     {
-//         a_order[*a_it] = i;
-//         ++a_it;
-//         ++i;
-//     }
-
-//     return a_order;
-// }
-
-// template <typename T>
-// void sort_b_on_order(T &a, T &b, std::map<int, int> &a_order)
-// {
-
-//     std::vector<int> b_sorted(b.size());
-//     size_t i = 0;
-//     while (i < b.size())
-//     {
-//         b_sorted[a_order[a[i]]] = b[i];
-//         i++;
-//     }
-//     b = b_sorted;
-// }
-
 
 template <typename T>
 void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
@@ -135,6 +119,7 @@ void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
     b = b_sorted;
 }
 
+
 template <typename T>
 void Sorter<T>::PmergeMe(T &nums)
 {
@@ -158,7 +143,7 @@ void Sorter<T>::PmergeMe(T &nums)
     std::map<int, value> a_order = get_map(a);
     
     PmergeMe(a);
-
+    
     sort_b_on_order(a, b, a_order);
 
     T main_chain = T(); T pend = T();
