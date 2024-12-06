@@ -58,32 +58,29 @@ size_t Sorter<T>::binary_search(T &nums, value value, size_t right_bound)
 }
 
 template <typename T>
-void sort_pend_on_order(T &order, T &pend)
-{
-    T sorted_pend(pend.size());
-    size_t i = 0;
-    while (i < pend.size() - 1)
-    {
-        sorted_pend[order[i]] = pend[i];
-        i++;
-    }
-    sorted_pend[i] = pend[i];
-    pend = sorted_pend;
-}
-
-template <typename T>
 void Sorter<T>::binary_insert(T &main_chain, T &pend)
 {
     typename T::iterator it = pend.begin();
 
-    if(is_jacobsthal(pend.size()))
-    {
-        T order = jacob_order<T>(pend.size());
-        // jacob order is : 3 2 5 4 11 10 9 8 7 6 21 20 19 ...
-        // sort_pend_on_order(order, pend);
+    T order = jacob_order<T>(pend.size());
+    // jacob order is : 3 2 5 4 11 10 9 8 7 6 21 20 19 ...
 
-        
+    T sorted_pend(pend.size());
+    typename T::iterator pend_it = pend.begin();
+    typename T::iterator order_it = order.begin();
+    while (pend_it != pend.end())
+    {
+        if(order_it != order.end())
+        {
+            sorted_pend[*order_it] = *pend_it;
+            ++order_it;
+        }
+        else
+            sorted_pend[std::distance(pend.begin(), pend_it)] = *pend_it;
+        ++pend_it;
     }
+    pend = sorted_pend;
+
     while (it != pend.end())
     {
         size_t index = binary_search(main_chain, *it, main_chain.size());
@@ -94,31 +91,40 @@ void Sorter<T>::binary_insert(T &main_chain, T &pend)
     }
 }
 
+
 template <typename T>
 void Sorter<T>::sort_b_on_order(T &a, T &b, std::map<int, value> &a_order)
 {
     std::vector<value> b_sorted(b.size());
 
-    size_t i = 0;
-    if(b.size() > a_order.size())
-    {
-        std::cout << "b size is more" << std::endl;
-        std::cout << "b size: " << b.size() << std::endl;
-        std::cout << "a_order size: " << a_order.size() << std::endl;
-    }
-    else if(b.size() < a_order.size())
-        std::cout << "a size is more" << std::endl;
-    else
-        std::cout << "equal" << std::endl;
+    typename T::const_iterator a_it = a.begin();
+    typename T::const_iterator b_it = b.begin();
+    typename std::vector<value>::iterator it = b_sorted.begin();
 
-    while (i < b.size())
+    // if(b.size() > a_order.size())
+    // {
+    //     std::cout << "b size is more" << std::endl;
+    //     std::cout << "b size: " << b.size() << std::endl;
+    //     std::cout << "a_order size: " << a_order.size() << std::endl;
+    // }
+    // else if(b.size() < a_order.size())
+    //     std::cout << "a size is more" << std::endl;
+    // else
+    //     std::cout << "equal" << std::endl;
+
+    while (a_it != a.end() && b_it != b.end())
     {
-        b_sorted[a_order[a[i]]] = b[i];
-        i++;
+        b_sorted[a_order[*a_it]] = *b_it;
+        ++a_it, ++b_it;
     }
-    b = b_sorted;
+    
+    typename T::iterator b_target = b.begin();
+    while (b_target != b.end() && it != b_sorted.end())
+    {
+        *b_target = *it;
+        ++b_target, ++it;
+    }
 }
-
 
 template <typename T>
 void Sorter<T>::PmergeMe(T &nums)
