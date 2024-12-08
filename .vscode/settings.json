@@ -111,6 +111,8 @@
     "streambuf": "cpp",
     "typeinfo": "cpp",
     "*.tpp": "cpp",
-    "set": "cpp"
+    "set": "cpp",
+    "chrono": "cpp",
+    "ratio": "cpp"
   }
 }

@@ -42,10 +42,28 @@ template <typename T>
 void print_nums(T nums)
 {
     typename T::iterator it = nums.begin();
-    while (it != nums.end())
+    if(nums.size() > MAX_DISPLAY)
     {
-        std::cout << *it << " ";
-        ++it;
+        for (size_t i = 0; i < MAX_DISPLAY / 2; i++)
+        {
+            std::cout << *it << " ";
+            ++it;
+        }
+        std::cout << "... ";
+        std::advance(it, nums.size() - MAX_DISPLAY);
+        for (size_t i = 0; i < MAX_DISPLAY / 2; i++)
+        {
+            std::cout << *it << " ";
+            ++it;
+        }
+    }
+    else
+    {
+        while (it != nums.end())
+        {
+            std::cout << *it << " ";
+            ++it;
+        }
     }
     std::cout << std::endl;
 }

@@ -30,6 +30,7 @@ enum Error_Type
 };
 
 #define MAX_ARGS 3001
+#define MAX_DISPLAY 10
 
 extern size_t comparisons;
 #include "Utils.tpp"
