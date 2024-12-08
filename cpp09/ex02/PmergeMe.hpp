@@ -17,6 +17,7 @@
 #include <deque>
 #include <map>
 #include <limits>
+#include <ctime>
 
 enum Error_Type
 {
