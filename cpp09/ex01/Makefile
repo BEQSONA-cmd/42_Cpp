@@ -1,6 +1,6 @@
 NAME =  RPN
 CXX = c++ -std=c++98
-CPPFLAGS = -Wall -Werror -Wextra -g
+CPPFLAGS = -Wall -Werror -Wextra
 
 SRC = $(wildcard *.cpp)
 OBJ = $(SRC:.cpp=.o)
