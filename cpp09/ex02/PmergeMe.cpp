@@ -116,7 +116,7 @@ template <typename T>
 void Sorter<T>::binary_insert(T &main_chain, T &pend)
 {
     std::vector<int> order = jacob_order(pend.size());
-    // jacob_order returns the specially chosen order: 3, 2, 5, 4, ...
+    // jacob order returns the specially chosen order: 3, 2, 5, 4, ...
 
     size_t i = 0;
     while (i < pend.size())

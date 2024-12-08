@@ -12,7 +12,9 @@
 #include <fstream>
 #include <sstream>
 
-std::map<std::string , double> make_data_map(void);
-bool error(std::map<std::string, double> &data, std::string &line);
+#define MAX_LINES 100
+
+std::multimap<std::string , double> make_data_map(void);
+bool error(std::multimap<std::string, double> &data, std::string &line);
 
 #endif

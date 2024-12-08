@@ -21,7 +21,7 @@ bool checkDateFormat(const std::string& dateString)
     return false;
 }
 
-bool check_valid_date(std::map<std::string, double> &data, const std::string &date)
+bool check_valid_date(std::multimap<std::string, double> &data, const std::string &date)
 {
 	std::string first_date = data.begin()->first;
 	std::string last_date = data.rbegin()->first;
@@ -32,7 +32,7 @@ bool check_valid_date(std::map<std::string, double> &data, const std::string &da
 	return true;
 }
 
-int err_num(std::map<std::string, double> &data, std::string &line)
+int err_num(std::multimap<std::string, double> &data, std::string &line)
 {
 	if (line.empty())
 		return 1;
@@ -67,7 +67,7 @@ bool print_err(std::string error, std::string line)
 	std::cerr << RED "Error: " << error << " => " BLUE << line <<  RESET "\n";
 	return true;
 }
-bool error(std::map<std::string, double> &data, std::string &line)
+bool error(std::multimap<std::string, double> &data, std::string &line)
 {
 	int err = err_num(data, line);
 	
@@ -85,10 +85,10 @@ bool error(std::map<std::string, double> &data, std::string &line)
 	}
 }
 
-std::map<std::string , double> make_data_map(void)
+std::multimap<std::string , double> make_data_map(void)
 {
 	std::string filename = "data.csv";
-	std::map<std::string, double> map;
+	std::multimap<std::string, double> map;
 	std::string key = "";
 	double value = 0;
 
@@ -114,7 +114,7 @@ std::map<std::string , double> make_data_map(void)
 		if (!checkDateFormat(key))
 			std::cerr << RED "Error: bad input => " BLUE << key <<  RESET "\n";
 		ss >> value;
-		map[key] = value;
+		map.insert(std::pair<std::string, double>(key, value));
 	}
 	return map;
 }
